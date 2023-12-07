@@ -1,4 +1,4 @@
-Projektni zadatak iz predmeta Inteligentni softverski infrastrukturni sistemi na PSI MAS FTN.
+#Projektni zadatak iz predmeta Inteligentni softverski infrastrukturni sistemi na PSI MAS FTN.
 
 Korišćeni softverski alati:
 Python, ReactJs
