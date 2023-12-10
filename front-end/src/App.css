@@ -40,3 +40,10 @@ body{
   display: flex;
   margin-top: 20px;
 }
+
+.frontpage-button{
+  width: 200px;
+  height: 45px;
+  align-self: center;
+  margin-top: 20px;
+}
