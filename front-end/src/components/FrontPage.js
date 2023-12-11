@@ -3,7 +3,7 @@ import { Pelda } from "../services/FrontPageService";
 
 function FrontPage(){
     const [loadData, setLoadData] = useState([]);
-    const [weatherData, setWeatherData] = useState();
+    const [weatherData, setWeatherData] = useState([]);
     const [usHolidaysData, setUSHolidaysData] = useState();
 
     const handleFilesChange1 = (event) => {
@@ -18,6 +18,10 @@ function FrontPage(){
         setWeatherData(filesArray);
         console.log(filesArray);
       };
+
+      const handleSubmitSendData = async (e) =>{
+
+      }
 
       const handleSubmitTrainModel = async (e) =>{
         try{
@@ -51,6 +55,7 @@ function FrontPage(){
                     <label className="frontpage-label" >US holidays data</label>
                     <input type="file" onChange={(e) => setUSHolidaysData(e.target.value)} ></input>
                 </div>
+                <button className="frontpage-button" onClick={handleSubmitSendData} >SEND DATA</button>
                 <button className="frontpage-button" onClick={handleSubmitTrainModel} >TRAIN MODEL</button>
                 <button className="frontpage-button" onClick={handleSubmitBeginForecast} >BEGIN FORECAST</button>
             </div>
