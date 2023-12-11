@@ -25,6 +25,16 @@ def us_holidays_data():
     return True
 
 
+@app.route('/api/TrainModel', methods=['GET'])
+def train_model():
+    return True
+
+
+@app.route('/api/BeginForecast', methods=['GET'])
+def begin_forecast():
+    return True
+
+
 """
 if __name__ == '__main__':
     app.run(debug=True)
