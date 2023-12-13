@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 app = Flask("Electric consumption forecast app")
@@ -22,7 +22,12 @@ def weather_data():
 
 @app.route('/api/USHolidaysData', methods=['POST'])
 def us_holidays_data():
-    return True
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file part'}), 400
+    else:
+        file = request.files['file']
+        print(file)
+        return jsonify({'message': 'File uploaded successfully'}), 200
 
 
 @app.route('/api/TrainModel', methods=['GET'])
