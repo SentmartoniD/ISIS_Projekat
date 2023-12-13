@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Pelda, SendUSHolidaysData, SendWeatherData } from "../services/FrontPageService";
+import { SendUSHolidaysData, SendWeatherData, SendLoadData } from "../services/FrontPageService";
 
 function FrontPage(){
     const [loadData, setLoadData] = useState([]);
@@ -11,7 +11,6 @@ function FrontPage(){
         const files = event.target.files;
         const filesArray = Array.from(files);
         setLoadData(filesArray);
-        console.log(filesArray);
       };
 
     const handleFilesChange2 = (event) => {
@@ -36,8 +35,16 @@ function FrontPage(){
                 alert(JSON.stringify(error.response.data))
         }
         try{
-            console.log(weatherData)
             const response = await SendWeatherData(weatherData);
+            console.log(response);
+        }catch(error){
+            if (!error?.respons)
+                alert("No server response!")
+            else
+                alert(JSON.stringify(error.response.data))
+        }
+        try{
+            const response = await SendLoadData(loadData);
             console.log(response);
         }catch(error){
             if (!error?.respons)
@@ -48,18 +55,10 @@ function FrontPage(){
       }
 
     const handleSubmitTrainModel = async (e) =>{
-        try{
-            const response = await Pelda();
-            console.log(response)
-        } catch(error){
-            if (!error?.response)
-                alert("No server response!")
-            else
-                alert(JSON.stringify(error.response.data))
-        }
+ 
       }
 
-      const handleSubmitBeginForecast = async (e) =>{
+    const handleSubmitBeginForecast = async (e) =>{
 
       }
 
