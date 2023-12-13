@@ -13,7 +13,14 @@ export const SendWeatherData = async (files) => {
 }
 
 export const SendUSHolidaysData = async (file) => {
-    
+    const formData = new FormData();
+    formData.append('file', file);
+    return await axios.post(`${process.env.REACT_APP_PYTHON_APP_API_URL}/api/USHolidaysData`, formData, 
+    {
+        headers: {
+            'Content-Type' : 'multipart/form-data'
+        },
+    });
 }
 
 export const TrainModel = async () => {
