@@ -18,7 +18,7 @@ export const SendLoadData = async (files) => {
                     'Content-Type': 'multipart/form-data'
                 },
             });
-            console.log(reposne);
+            console.log(response);
         }catch(err){
             console.log(err);
         }

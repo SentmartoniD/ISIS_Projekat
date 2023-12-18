@@ -89,6 +89,10 @@ function FrontPage(){
                 <label>Number of days(max 7)</label>
                 <input type="number" ></input>
                 <button className="frontpage-button" onClick={handleSubmitBeginForecast} >BEGIN FORECAST</button>
+                <label>Start date for graph</label>
+                <input type="date" ></input>
+                <label>End date for graph</label>
+                <input type="date" ></input>
                 <button className="frontpage-button" onClick={handleSubmitBeginForecast} >SHOW GRAPH</button>
             </div>
         </section>
