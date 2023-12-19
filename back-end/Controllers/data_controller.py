@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import pandas
 
 app = Flask("Electric consumption forecast app")
 CORS(app)
@@ -38,6 +39,8 @@ def us_holidays_data():
         return jsonify({'error': 'No file part'}), 400
     else:
         US_HOLIDAYS_DATA_FILE = request.files['file']
+        df = pandas.read_excel(US_HOLIDAYS_DATA_FILE)
+        print(df)
         print(US_HOLIDAYS_DATA_FILE)
         return jsonify({'message': 'File uploaded successfully'}), 200
 
