@@ -38,3 +38,40 @@ def create_us_holidays_table():
     my_cursor.close()
     db.close()
     return
+
+
+def create_load_data_table():
+    db = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        passwd="root",
+        database=f"{DATABASE_NAME}"
+    )
+    my_cursor = db.cursor()
+    if not table_exists(my_cursor, 'LoadData'):
+        my_cursor.execute("CREATE TABLE LoadData (LD_ID int PRIMARY KEY AUTO_INCREMENT, timestamp VARCHAR(30), "
+                          "timezone VARCHAR(4), name VARCHAR(7),  ptid int UNSIGNED, load double)")
+    my_cursor.close()
+    db.close()
+    return
+
+
+def create_weather_data_table():
+    db = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        passwd="root",
+        database=f"{DATABASE_NAME}"
+    )
+    my_cursor = db.cursor()
+    if not table_exists(my_cursor, 'WeatherData'):
+        my_cursor.execute("CREATE TABLE WeatherData (WD_ID int PRIMARY KEY AUTO_INCREMENT, name VARCHAR(9), "
+                          "datetime VARCHAR(30), temp double,  feelslike double, dew double, "
+                          "humidity double, precip double, precipprob VARCHAR(2), preciptype VARCHAR(2), "
+                          "snow double, snowdepth double, windgust double, windspeed double, "
+                          "winddir smallint UNSIGNED, sealevelpressure double, cloudclover double, "
+                          "visibility double, solarradiation smallint UNSIGNED, solarenergy double, "
+                          "uvindex smallint UNSIGNED, severerisk VARCHAR(2), conditions VARCHAR(30))")
+    my_cursor.close()
+    db.close()
+    return
