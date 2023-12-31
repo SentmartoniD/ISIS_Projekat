@@ -3,20 +3,13 @@ import pandas
 
 
 def fill_loaddata_table(loaddata_files):
-    for i in range(loaddata_files.__len__()):
-        csv_files = loaddata_files[i]
-        print(csv_files)
-        for key, file in csv_files.items():
-            try:
-                with file.stream as f:
-                    df = pandas.read_csv(f)
-                    print(df)
-                    for j in range(df.shape[0]):
-                        row = df.iloc[j]
-
-            except ValueError as e:
-                    print(f"Error reading CSV file: {e}")
-                #print(row[row.index[2]])
+    for key, file in loaddata_files.items():
+        df = pandas.read_csv(file)
+        for i in range(df.shape[0]):
+            row = df.iloc[i]
+            if row[row.index[0]][14:16] == "00" and row[row.index[2]] == "N.Y.C.":
+                database_functions.insert_into_loaddata_table(row[row.index[0]],
+                row[row.index[1]], row[row.index[2]], row[row.index[3]], row[row.index[4]])
     return
 
 
@@ -38,6 +31,5 @@ def fill_usholidays_table(usholidaysdata_files):
     for i in range(df.shape[0]):
         row = df.iloc[i]
         database_functions.insert_into_usholidays_table(
-            row.index[0], row[row.index[1]], row[row.index[2]], row[row.index[3]]
-        )
+            row.index[0], row[row.index[1]], row[row.index[2]], row[row.index[3]])
     return

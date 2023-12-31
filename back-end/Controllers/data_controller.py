@@ -6,17 +6,14 @@ from Services import database_service
 app = Flask("Electric consumption forecast app")
 CORS(app)
 
-LOAD_DATA_FILES = []
-
 
 @app.route('/api/LoadData', methods=['POST'])
 def load_data():
     if 'file1' not in request.files:
         return jsonify({'error': 'No file part'}), 400
     else:
-        LOAD_DATA_FILES.append(request.files)
-        if LOAD_DATA_FILES.__len__() == 14:
-            database_service.fill_loaddata_table(LOAD_DATA_FILES)
+        LOAD_DATA_FILES = request.files
+        #database_service.fill_loaddata_table(LOAD_DATA_FILES)
         return jsonify({'message': 'Files uploaded successfully'}), 200
 
 
