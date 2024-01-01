@@ -12,7 +12,6 @@ def initialize_database_and_tables():
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    # call initialize function
+    initialize_database_and_tables()
     app.run(debug=True)
-
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

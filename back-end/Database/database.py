@@ -50,7 +50,7 @@ def create_load_data_table():
     my_cursor = db.cursor()
     if not table_exists(my_cursor, 'LoadData'):
         my_cursor.execute("CREATE TABLE LoadData (LD_ID int PRIMARY KEY AUTO_INCREMENT, timestamp VARCHAR(30), "
-                          "timezone VARCHAR(4), name VARCHAR(7),  ptid int UNSIGNED, load double)")
+                          "timezone VARCHAR(4), name VARCHAR(7),  ptid int UNSIGNED, _load DOUBLE)")
     my_cursor.close()
     db.close()
     return
@@ -65,13 +65,13 @@ def create_weather_data_table():
     )
     my_cursor = db.cursor()
     if not table_exists(my_cursor, 'WeatherData'):
-        my_cursor.execute("CREATE TABLE WeatherData (WD_ID int PRIMARY KEY AUTO_INCREMENT, name VARCHAR(9), "
-                          "datetime VARCHAR(30), temp double,  feelslike double, dew double, "
-                          "humidity double, precip double, precipprob VARCHAR(2), preciptype VARCHAR(2), "
+        my_cursor.execute("CREATE TABLE WeatherData (WD_ID int PRIMARY KEY AUTO_INCREMENT, name VARCHAR(18), "
+                          "datetime VARCHAR(20), temp double,  feelslike double, dew double, "
+                          "humidity double, precip double, precipprob double, preciptype double, "
                           "snow double, snowdepth double, windgust double, windspeed double, "
-                          "winddir smallint UNSIGNED, sealevelpressure double, cloudclover double, "
-                          "visibility double, solarradiation smallint UNSIGNED, solarenergy double, "
-                          "uvindex smallint UNSIGNED, severerisk VARCHAR(2), conditions VARCHAR(30))")
+                          "winddir float, sealevelpressure double, cloudclover double, "
+                          "visibility double, solarradiation double, solarenergy double, "
+                          "uvindex int, severerisk double, conditions VARCHAR(30))")
     my_cursor.close()
     db.close()
     return

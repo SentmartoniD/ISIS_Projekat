@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import pandas
 from Services import database_service
+import pandas
 
 app = Flask("Electric consumption forecast app")
 CORS(app)
@@ -13,7 +13,8 @@ def load_data():
         return jsonify({'error': 'No file part'}), 400
     else:
         LOAD_DATA_FILES = request.files
-        #database_service.fill_loaddata_table(LOAD_DATA_FILES)
+        #rez = database_service.fill_loaddata_table(LOAD_DATA_FILES)
+        #print(rez)
         return jsonify({'message': 'Files uploaded successfully'}), 200
 
 
@@ -23,7 +24,8 @@ def weather_data():
         return jsonify({'error': 'No file part'}), 400
     else:
         WEATHER_DATA_FILES = request.files
-        #database_service.fill_weatherdata_table(WEATHER_DATA_FILES)
+        #rez = database_service.fill_weatherdata_table(WEATHER_DATA_FILES)
+        #print(rez)
         return jsonify({'message': 'Files uploaded successfully'}), 200
 
 
@@ -33,7 +35,8 @@ def us_holidays_data():
         return jsonify({'error': 'No file part'}), 400
     else:
         US_HOLIDAYS_DATA_FILE = request.files['file']
-        # database_service.fill_usholidays_table(US_HOLIDAYS_DATA_FILE)
+        #rez = database_service.fill_usholidays_table(US_HOLIDAYS_DATA_FILE)
+        #print(rez)
         return jsonify({'message': 'File uploaded successfully'}), 200
 
 
@@ -45,9 +48,3 @@ def train_model():
 @app.route('/api/BeginForecast', methods=['GET'])
 def begin_forecast():
     return True
-
-
-"""
-if __name__ == '__main__':
-    app.run(debug=True)
-"""
