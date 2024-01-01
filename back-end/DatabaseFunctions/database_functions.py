@@ -29,7 +29,7 @@ def insert_into_loaddata_table(timestamp, timezone, name, ptid, load):
         database=f"{DATABASE_NAME}"
     )
     my_cursor = db.cursor()
-    my_cursor.execute("INSERT INTO LoadData (timestamp, timezone, name, ptid, load) "
+    my_cursor.execute("INSERT INTO LoadData (timestamp, timezone, name, ptid, load_) "
                       "VALUES (%s,%s,%s,%s,%s)", (timestamp, timezone, name, ptid, load))
     db.commit()
     my_cursor.close()

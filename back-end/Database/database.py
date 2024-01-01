@@ -49,8 +49,8 @@ def create_load_data_table():
     )
     my_cursor = db.cursor()
     if not table_exists(my_cursor, 'LoadData'):
-        my_cursor.execute("CREATE TABLE LoadData (LD_ID int PRIMARY KEY AUTO_INCREMENT, timestamp VARCHAR(30), "
-                          "timezone VARCHAR(4), name VARCHAR(7),  ptid int UNSIGNED, _load DOUBLE)")
+        my_cursor.execute("CREATE TABLE LoadData (LD_ID int PRIMARY KEY AUTO_INCREMENT, timestamp VARCHAR(20), "
+                          "timezone VARCHAR(4), name VARCHAR(7),  ptid int, load_ DOUBLE)")
     my_cursor.close()
     db.close()
     return

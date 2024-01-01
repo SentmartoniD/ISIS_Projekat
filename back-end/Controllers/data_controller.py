@@ -13,8 +13,27 @@ def load_data():
         return jsonify({'error': 'No file part'}), 400
     else:
         LOAD_DATA_FILES = request.files
-        #rez = database_service.fill_loaddata_table(LOAD_DATA_FILES)
-        #print(rez)
+        '''
+        for key, file in LOAD_DATA_FILES.items():
+            df = pandas.read_csv(file)
+            row = df.iloc[3]
+            print(row.index[0])
+            print(row[row.index[0]])
+            print(type(row[row.index[0]]))
+            print(row.index[1])
+            print(row[row.index[1]])
+            print(type(row[row.index[1]]))
+            print(row.index[2])
+            print(row[row.index[2]])
+            print(type(row[row.index[2]]))
+            print(row.index[3])
+            print(row[row.index[3]])
+            print(type(row[row.index[3]]))
+            print(row.index[4])
+            print(row[row.index[4]])
+            print(type(row[row.index[4]]))'''
+        rez = database_service.fill_loaddata_table(LOAD_DATA_FILES)
+        print(rez)
         return jsonify({'message': 'Files uploaded successfully'}), 200
 
 
