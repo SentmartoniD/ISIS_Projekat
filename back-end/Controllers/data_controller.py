@@ -13,27 +13,8 @@ def load_data():
         return jsonify({'error': 'No file part'}), 400
     else:
         LOAD_DATA_FILES = request.files
-        '''
-        for key, file in LOAD_DATA_FILES.items():
-            df = pandas.read_csv(file)
-            row = df.iloc[3]
-            print(row.index[0])
-            print(row[row.index[0]])
-            print(type(row[row.index[0]]))
-            print(row.index[1])
-            print(row[row.index[1]])
-            print(type(row[row.index[1]]))
-            print(row.index[2])
-            print(row[row.index[2]])
-            print(type(row[row.index[2]]))
-            print(row.index[3])
-            print(row[row.index[3]])
-            print(type(row[row.index[3]]))
-            print(row.index[4])
-            print(row[row.index[4]])
-            print(type(row[row.index[4]]))'''
-        rez = database_service.fill_loaddata_table(LOAD_DATA_FILES)
-        print(rez)
+        #result = database_service.fill_loaddata_table(LOAD_DATA_FILES)
+        #print(result)
         return jsonify({'message': 'Files uploaded successfully'}), 200
 
 
@@ -43,8 +24,8 @@ def weather_data():
         return jsonify({'error': 'No file part'}), 400
     else:
         WEATHER_DATA_FILES = request.files
-        #rez = database_service.fill_weatherdata_table(WEATHER_DATA_FILES)
-        #print(rez)
+        #result = database_service.fill_weatherdata_table(WEATHER_DATA_FILES)
+        #print(result)
         return jsonify({'message': 'Files uploaded successfully'}), 200
 
 
@@ -54,8 +35,8 @@ def us_holidays_data():
         return jsonify({'error': 'No file part'}), 400
     else:
         US_HOLIDAYS_DATA_FILE = request.files['file']
-        #rez = database_service.fill_usholidays_table(US_HOLIDAYS_DATA_FILE)
-        #print(rez)
+        #result = database_service.fill_usholidays_table(US_HOLIDAYS_DATA_FILE)
+        #print(result)
         return jsonify({'message': 'File uploaded successfully'}), 200
 
 

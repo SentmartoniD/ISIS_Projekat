@@ -2,7 +2,7 @@ import mysql.connector
 
 DATABASE_NAME = "isisdatabase"
 
-# CREATE OPERATIONS
+# INSERT OPERATIONS
 
 
 def insert_into_usholidays_table(year, day, date, holiday_name):

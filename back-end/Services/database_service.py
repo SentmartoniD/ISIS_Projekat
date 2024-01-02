@@ -1,7 +1,9 @@
-from DatabaseFunctions import database_functions
+from DatabaseFunctions import database_insert_functions
 import pandas
 
 SPECIAL_NUMBER = 666999
+
+# FILL TABLE FUNCTIONS
 
 
 def fill_loaddata_table(loaddata_files):
@@ -10,7 +12,7 @@ def fill_loaddata_table(loaddata_files):
         for i in range(df.shape[0]):
             row = df.iloc[i]
             if row[row.index[0]][14:16] == "00" and row[row.index[2]] == "N.Y.C.":
-                database_functions.insert_into_loaddata_table(
+                database_insert_functions.insert_into_loaddata_table(
                 "0000-00-00T00:00:00" if pandas.isna(row[row.index[0]]) else row[row.index[0]],
                 "000" if pandas.isna(row[row.index[1]]) else row[row.index[1]],
                 f"{SPECIAL_NUMBER}" if pandas.isna(row[row.index[2]]) else row[row.index[2]],
@@ -24,7 +26,7 @@ def fill_weatherdata_table(weatherdata_files):
         df = pandas.read_csv(file)
         for i in range(df.shape[0]):
             row = df.iloc[i]
-            database_functions.insert_into_weatherdata_table(
+            database_insert_functions.insert_into_weatherdata_table(
             "New York City, NY" if pandas.isna(row[row.index[0]]) else row[row.index[0]],
             "0000-00-00T00:00:00" if pandas.isna(row[row.index[1]]) else row[row.index[1]],
             SPECIAL_NUMBER if pandas.isna(row[row.index[2]]) else row[row.index[2]],
@@ -56,6 +58,6 @@ def fill_usholidays_table(usholidaysdata_files):
         row = df.iloc[i]
         if pandas.isna(row[row.index[1]]):
             continue
-        database_functions.insert_into_usholidays_table(
+        database_insert_functions.insert_into_usholidays_table(
             row.index[0], row[row.index[1]], row[row.index[2]].strftime('%Y-%m-%d'), row[row.index[3]])
     return "Done inserting into usholidays table!"
