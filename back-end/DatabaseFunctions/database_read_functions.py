@@ -13,7 +13,7 @@ def read_from_usholidays_table():
         database=f"{DATABASE_NAME}"
     )
     my_cursor = db.cursor()
-    my_cursor.execute("SELECT * FROM WeatherData")
+    my_cursor.execute("SELECT * FROM USHolidays")
     result = my_cursor.fetchall()
     my_cursor.close()
     db.close()
@@ -43,7 +43,7 @@ def read_from_weatherdata_table():
         database=f"{DATABASE_NAME}"
     )
     my_cursor = db.cursor()
-    my_cursor.execute("SELECT * FROM USHolidays")
+    my_cursor.execute("SELECT * FROM WeatherData")
     result = my_cursor.fetchall()
     my_cursor.close()
     db.close()
