@@ -33,8 +33,8 @@ def preprocess():
     '''
 
     dataframe = pandas.DataFrame(data_list)
-    print(dataframe)
-    return
+
+    return dataframe
 
 
 
