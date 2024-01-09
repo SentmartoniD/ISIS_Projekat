@@ -54,10 +54,18 @@ def fill_weatherdata_table(weatherdata_files):
 
 def fill_usholidays_table(usholidaysdata_files):
     df = pandas.read_excel(usholidaysdata_files)
+    row0 = df.iloc[0]
+    listyears = [row0.index[0]]
+    for i in range(df.shape[0]):
+        row = df.iloc[i]
+        if not pandas.isna(row[row.index[0]]):
+            listyears.append(int(row[row.index[0]]))
+    year_counter = 0
     for i in range(df.shape[0]):
         row = df.iloc[i]
         if pandas.isna(row[row.index[1]]):
+            year_counter += 1
             continue
         database_insert_functions.insert_into_usholidays_table(
-            row.index[0], row[row.index[1]], row[row.index[2]].strftime('%Y-%m-%d'), row[row.index[3]])
+            listyears[year_counter], row[row.index[1]], row[row.index[2]].strftime('%Y-%m-%d'), row[row.index[3]])
     return "Done inserting into usholidays table!"

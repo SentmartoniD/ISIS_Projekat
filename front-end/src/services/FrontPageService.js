@@ -49,10 +49,14 @@ export const SendUSHolidaysData = async (file) => {
     });
 }
 
-export const TrainModel = async () => {
-    return await axios.get(`${process.env.REACT_APP_PYTHON_APP_API_URL}/`);
+export const TrainModel = async (startDate, endDate) => {
+    return await axios.post(`${process.env.REACT_APP_PYTHON_APP_API_URL}/`, {startDate : startDate, endDate : endDate});
 }
 
-export const BeginForecast = async () => {
-    return await axios.get(`${process.env.REACT_APP_PYTHON_APP_API_URL}/`);
+export const BeginForecast = async (startDate, days) => {
+    return await axios.post(`${process.env.REACT_APP_PYTHON_APP_API_URL}/`, {startDate : startDate, days : days});
+}
+
+export const ShowGraph = async (startDate, endDate) => {
+    return await axios.post(`${process.env.REACT_APP_PYTHON_APP_API_URL}/`, {startDate : startDate, endDate : endDate});
 }
