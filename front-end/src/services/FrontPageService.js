@@ -50,13 +50,13 @@ export const SendUSHolidaysData = async (file) => {
 }
 
 export const TrainModel = async (startDate, endDate) => {
-    return await axios.post(`${process.env.REACT_APP_PYTHON_APP_API_URL}/`, {startDate : startDate, endDate : endDate});
+    return await axios.post(`${process.env.REACT_APP_PYTHON_APP_API_URL}/api/TrainModel`, {startDate : startDate, endDate : endDate});
 }
 
 export const BeginForecast = async (startDate, days) => {
-    return await axios.post(`${process.env.REACT_APP_PYTHON_APP_API_URL}/`, {startDate : startDate, days : days});
+    return await axios.post(`${process.env.REACT_APP_PYTHON_APP_API_URL}/api/BeginForecast`, {startDate : startDate, days : days});
 }
 
 export const ShowGraph = async (startDate, endDate) => {
-    return await axios.post(`${process.env.REACT_APP_PYTHON_APP_API_URL}/`, {startDate : startDate, endDate : endDate});
+    return await axios.post(`${process.env.REACT_APP_PYTHON_APP_API_URL}/api/ShowGraph`, {startDate : startDate, endDate : endDate});
 }

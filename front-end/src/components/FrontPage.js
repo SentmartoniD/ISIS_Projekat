@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SendUSHolidaysData, SendWeatherData, SendLoadData } from "../services/FrontPageService";
+import { SendUSHolidaysData, SendWeatherData, SendLoadData, TrainModel, BeginForecast, ShowGraph } from "../services/FrontPageService";
 
 function FrontPage(){
     const [loadData, setLoadData] = useState([]);
@@ -84,6 +84,15 @@ function FrontPage(){
             alert("Pick both dates!")
         if(startDateForTraining > endDateForTraining)
             alert("The end date is before the start date, pick end date again!")
+        try{
+            reposne = await TrainModel(startDateForTraining, endDateForTraining);
+            console.log(response);
+        }catch(error){
+            if (!error?.respons)
+                alert("No server response!")
+            else
+                alert(JSON.stringify(error.response.data))
+        }
       }
 
     const handleSubmitBeginForecast = async (e) =>{
@@ -91,6 +100,15 @@ function FrontPage(){
             alert("Pick a date and the number of days!")
         if(daysForForecast < 1 || daysForForecast > 7)
             alert("NUmber of days for forecast mus be bethween 1 and 7!")
+        try{
+            reponse = await BeginForecast(startDateForForecast, daysForForecast);
+            console.log(response);
+        }catch(error){
+            if (!error?.respons)
+                alert("No server response!")
+            else
+                alert(JSON.stringify(error.response.data))
+        }        
       }
 
     const handleSubmitShowGraph = async (e) =>{
@@ -98,6 +116,15 @@ function FrontPage(){
             alert("Pick both dates!")
         if(startDateForGraph > endDateForGraph)
             alert("The end date is before the start date, pick end date again!")
+        try{
+            reponse = await ShowGraph(startDateForGraph, endDateForGraph);
+            console.log(response);
+        }catch(error){
+            if (!error?.respons)
+                alert("No server response!")
+            else
+                alert(JSON.stringify(error.response.data))
+        }
       }
 
     function hasExtension(fileName, ext){
