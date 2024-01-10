@@ -40,11 +40,16 @@ def us_holidays_data():
         return jsonify({'message': 'File uploaded successfully'}), 200
 
 
-@app.route('/api/TrainModel', methods=['GET'])
+@app.route('/api/TrainModel', methods=['POST'])
 def train_model():
     return True
 
 
-@app.route('/api/BeginForecast', methods=['GET'])
+@app.route('/api/BeginForecast', methods=['POST'])
+def begin_forecast():
+    return True
+
+
+@app.route('/api/ShowGraph', methods=['POST'])
 def begin_forecast():
     return True
