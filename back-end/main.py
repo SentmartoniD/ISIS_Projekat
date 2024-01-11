@@ -13,6 +13,6 @@ def initialize_database_and_tables():
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     initialize_database_and_tables()
-    #app.run(debug=True)
-    training_service.train_model()
+    app.run(debug=True)
+    #training_service.train_model()
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

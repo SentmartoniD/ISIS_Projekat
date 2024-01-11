@@ -1,6 +1,7 @@
 from DatabaseFunctions import database_read_functions
 import pandas
 import numpy
+from datetime import datetime
 
 SPECIAL_NUMBER = 666999
 
@@ -8,7 +9,7 @@ SPECIAL_NUMBER = 666999
 def preprocess():
     usholidays_list = database_read_functions.read_from_usholidays_table()
     weatherdata_list = database_read_functions.read_from_weatherdata_table()
-    loaddata_list = database_read_functions.read_from_loaddata_table()
+    dt_list = database_read_functions.read_from_loaddata_table()
     '''
     # TEMP DEW HUMIDITY WINDGUST WINDSPEED WINDDIR LOAD
     data_list = []
@@ -91,8 +92,8 @@ def preprocess():
     print(f"load avg = {round(load_sum / load_count)}")
     dataframe = pandas.DataFrame(data_list)
     '''
-
-    # TEMP DEW HUMIDITY WINDGUST WINDSPEED WINDDIR CLOUDCOVER DAYS PREVIOUSLOAD NEXTLOAD LOAD
+    loaddata_list = sort_list_by_dates(dt_list)
+    # TEMP DEW HUMIDITY WINDGUST WINDSPEED WINDDIR CLOUDCOVER MONTHS PREVLOAD NEXTLOAD PREVTEMP NEXTTEMP LOAD
     data_list = []
     for i in range(loaddata_list.__len__()):
         for j in range(weatherdata_list.__len__()):
@@ -104,9 +105,9 @@ def preprocess():
 
                 elem = [weatherdata_list[j][3], weatherdata_list[j][5], weatherdata_list[j][6],
                         weatherdata_list[j][12], weatherdata_list[j][13], weatherdata_list[j][14],
-                        weatherdata_list[j][16], int(weatherdata_list[j][2][5:7]),
+                        weatherdata_list[j][16], get_month_123(int(weatherdata_list[j][2][5:7])),
                         loaddata_list[i][5] if i == 0 else loaddata_list[i-1][5],
-                        loaddata_list[i][5] if i == loaddata_list.__len__()-1 else loaddata_list[i+1][5],
+                        loaddata_list[i][5] if i == loaddata_list.__len__() - 1 else loaddata_list[i+1][5],
                         loaddata_list[i][5]]
                 data_list.append(elem)
 
@@ -132,10 +133,21 @@ def preprocess():
     df[6] = df[6].interpolate(method='linear', limit_direction='both')
     df[10] = df[10].interpolate(method='linear', limit_direction='both')
 
-    print(df)
     return df
 
 
+def sort_list_by_dates(my_list):
+    date_format = '%m/%d/%Y %H:%M:%S'
+    my_list.sort(key=lambda x: datetime.strptime(x[1], date_format))
+    return my_list
 
-
+def get_month_123(dt):
+    if (dt == 1 | dt == 12 | dt == 2):
+        return 1
+    elif (dt == 3 | dt == 11):
+        return 2
+    elif (dt == 4 | dt == 5 | dt == 10):
+        return 3
+    else:
+        return 4
 

@@ -55,7 +55,7 @@ function FrontPage(){
              const response = await SendWeatherData(weatherData);
              console.log(response);
             }catch(error){
-                if (!error?.respons)
+                if (!error?.response)
                     alert("No server response!")
                 else
                     alert(JSON.stringify(error.response.data))
@@ -70,7 +70,7 @@ function FrontPage(){
              const response = await SendLoadData(loadData);
              console.log(response);
             }catch(error){
-                if (!error?.respons)
+                if (!error?.response)
                     alert("No server response!")
                 else
                     alert(JSON.stringify(error.response.data))
@@ -85,10 +85,10 @@ function FrontPage(){
         if(startDateForTraining > endDateForTraining)
             alert("The end date is before the start date, pick end date again!")
         try{
-            reposne = await TrainModel(startDateForTraining, endDateForTraining);
+            const response = await TrainModel(startDateForTraining, endDateForTraining);
             console.log(response);
         }catch(error){
-            if (!error?.respons)
+            if (!error?.response)
                 alert("No server response!")
             else
                 alert(JSON.stringify(error.response.data))
@@ -101,10 +101,10 @@ function FrontPage(){
         if(daysForForecast < 1 || daysForForecast > 7)
             alert("NUmber of days for forecast mus be bethween 1 and 7!")
         try{
-            reponse = await BeginForecast(startDateForForecast, daysForForecast);
+            const response = await BeginForecast(startDateForForecast, daysForForecast);
             console.log(response);
         }catch(error){
-            if (!error?.respons)
+            if (!error?.response)
                 alert("No server response!")
             else
                 alert(JSON.stringify(error.response.data))
@@ -117,10 +117,10 @@ function FrontPage(){
         if(startDateForGraph > endDateForGraph)
             alert("The end date is before the start date, pick end date again!")
         try{
-            reponse = await ShowGraph(startDateForGraph, endDateForGraph);
+            const response = await ShowGraph(startDateForGraph, endDateForGraph);
             console.log(response);
         }catch(error){
-            if (!error?.respons)
+            if (!error?.response)
                 alert("No server response!")
             else
                 alert(JSON.stringify(error.response.data))

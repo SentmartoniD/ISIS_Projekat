@@ -42,14 +42,29 @@ def us_holidays_data():
 
 @app.route('/api/TrainModel', methods=['POST'])
 def train_model():
-    return True
+    data = request.json
+    startDate = data.get('startDate')
+    endDate = data.get('endDate')
+    print(startDate)
+    print(endDate)
+    return jsonify({'message': 'File uploaded successfully'}), 200
 
 
 @app.route('/api/BeginForecast', methods=['POST'])
-def begin_forecast():
-    return True
+def begin_forecast_action():
+    data = request.json
+    startDate = data.get('startDate')
+    days = data.get('days')
+    print(startDate)
+    print(days)
+    return jsonify({'message': 'File uploaded successfully'}), 200
 
 
 @app.route('/api/ShowGraph', methods=['POST'])
 def begin_forecast():
-    return True
+    data = request.json
+    startDate = data.get('startDate')
+    endDate = data.get('endDate')
+    print(startDate)
+    print(endDate)
+    return jsonify({'message': 'File uploaded successfully'}), 200
