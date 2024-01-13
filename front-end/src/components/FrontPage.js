@@ -87,6 +87,7 @@ function FrontPage(){
         try{
             const response = await TrainModel(startDateForTraining, endDateForTraining);
             console.log(response);
+            alert("Trening uspiješno izvršen!")
         }catch(error){
             if (!error?.response)
                 alert("No server response!")

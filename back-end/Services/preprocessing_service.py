@@ -6,9 +6,9 @@ from datetime import datetime
 SPECIAL_NUMBER = 666999
 
 
-def preprocess():
+def preprocess_all():
     usholidays_list = database_read_functions.read_from_usholidays_table()
-    weatherdata_list = database_read_functions.read_from_weatherdata_table()
+    weatherdata_list = database_read_functions.read_from_weatherdata_table_all()
     dt_list = database_read_functions.read_from_loaddata_table()
     '''
     # TEMP DEW HUMIDITY WINDGUST WINDSPEED WINDDIR LOAD
@@ -93,19 +93,22 @@ def preprocess():
     dataframe = pandas.DataFrame(data_list)
     '''
     loaddata_list = sort_list_by_dates(dt_list)
-    # TEMP DEW HUMIDITY WINDGUST WINDSPEED WINDDIR CLOUDCOVER MONTHS PREVLOAD NEXTLOAD PREVTEMP NEXTTEMP LOAD
+    # TEMP DEW HUMIDITY WINDGUST WINDSPEED WINDDIR CLOUDCOVER MONTHS PREVLOAD NEXTLOAD  LOAD
     data_list = []
     for i in range(loaddata_list.__len__()):
+        # CHECK IF IT IS A HOLIDAY
+        if (check_for_holiday(loaddata_list[i][1], usholidays_list) == True):
+            continue
         for j in range(weatherdata_list.__len__()):
             # GET MATCHING DAYS AND TIMES
             if (loaddata_list[i][1][6:10] == weatherdata_list[j][2][0:4] and
                  loaddata_list[i][1][0:2] == weatherdata_list[j][2][5:7] and
                  loaddata_list[i][1][3:5] == weatherdata_list[j][2][8:10] and
                  loaddata_list[i][1][11:13] == weatherdata_list[j][2][11:13]):
-
+                # get_month_123(int(weatherdata_list[j][2][5:7])),
                 elem = [weatherdata_list[j][3], weatherdata_list[j][5], weatherdata_list[j][6],
                         weatherdata_list[j][12], weatherdata_list[j][13], weatherdata_list[j][14],
-                        weatherdata_list[j][16], get_month_123(int(weatherdata_list[j][2][5:7])),
+                         weatherdata_list[j][16],
                         loaddata_list[i][5] if i == 0 else loaddata_list[i-1][5],
                         loaddata_list[i][5] if i == loaddata_list.__len__() - 1 else loaddata_list[i+1][5],
                         loaddata_list[i][5]]
@@ -113,15 +116,24 @@ def preprocess():
 
     df = pandas.DataFrame(data_list)
 
+    # TEMP
     df[0] = df[0].mask((df[0] > 100.0) | (df[0] < 0.0), numpy.nan)
+    # DEW
     df[1] = df[1].mask((df[1] > 78.0) | (df[1] < -17.0), numpy.nan)
+    # HUMIDITY
     df[2] = df[2].mask((df[2] > 100.0) | (df[2] < 8.0), numpy.nan)
+    # WINDGUST
     df[3] = df[3].mask((df[3] > 61.0) | (df[3] < 16.0), numpy.nan)
+    # WINDSPEED
     df[4] = df[4].mask((df[4] > 33.0) | (df[4] < 0.0), numpy.nan)
+    # WINDDIR
     df[5] = df[5].mask((df[5] > 360.0) | (df[5] < 0.0), numpy.nan)
+    # SEALEVELPRESSURE
     #df[6] = df[6].mask((df[6] > 1045) | (df[6] < 975.0), numpy.nan)
+    # CLOUDCOVER
     df[6] = df[6].mask((df[6] > 100.0) | (df[6] < 0.0), numpy.nan)
-    df[10].replace(666999.0, numpy.nan, inplace=True)
+    # LOAD
+    df[9].replace(666999.0, numpy.nan, inplace=True)
 
     df[0] = df[0].interpolate(method='linear', limit_direction='both')
     df[1] = df[1].interpolate(method='linear', limit_direction='both')
@@ -131,7 +143,68 @@ def preprocess():
     df[5] = df[5].interpolate(method='linear', limit_direction='both')
     #df[6] = df[6].interpolate(method='linear', limit_direction='both')
     df[6] = df[6].interpolate(method='linear', limit_direction='both')
-    df[10] = df[10].interpolate(method='linear', limit_direction='both')
+    df[9] = df[9].interpolate(method='linear', limit_direction='both')
+
+    return df
+
+
+def preprocess(start_date, end_date):
+    usholidays_list = database_read_functions.read_from_usholidays_table()
+    weatherdata_list = database_read_functions.read_from_weatherdata_table_by_dates(start_date, end_date)
+    dt_list = database_read_functions.read_from_loaddata_table()
+
+    loaddata_list = sort_list_by_dates(dt_list)
+    # TEMP DEW HUMIDITY WINDGUST WINDSPEED WINDDIR CLOUDCOVER MONTHS PREVLOAD NEXTLOAD LOAD
+    data_list = []
+    for i in range(loaddata_list.__len__()):
+        # CHECK IF IT IS A HOLIDAY
+        if (check_for_holiday(loaddata_list[i][1], usholidays_list) == True):
+            continue
+        for j in range(weatherdata_list.__len__()):
+            # GET MATCHING DAYS AND TIMES
+            if (loaddata_list[i][1][6:10] == weatherdata_list[j][2][0:4] and
+                    loaddata_list[i][1][0:2] == weatherdata_list[j][2][5:7] and
+                    loaddata_list[i][1][3:5] == weatherdata_list[j][2][8:10] and
+                    loaddata_list[i][1][11:13] == weatherdata_list[j][2][11:13]):
+                # get_month_123(int(weatherdata_list[j][2][5:7])),
+                elem = [weatherdata_list[j][3], weatherdata_list[j][5], weatherdata_list[j][6],
+                        weatherdata_list[j][12], weatherdata_list[j][13], weatherdata_list[j][14],
+                        weatherdata_list[j][16],
+                        loaddata_list[i][5] if i == 0 else loaddata_list[i - 1][5],
+                        loaddata_list[i][5] if i == loaddata_list.__len__() - 1 else loaddata_list[i + 1][5],
+                        loaddata_list[i][5]]
+                data_list.append(elem)
+
+    df = pandas.DataFrame(data_list)
+
+    # TEMP
+    df[0] = df[0].mask((df[0] > 100.0) | (df[0] < 0.0), numpy.nan)
+    # DEW
+    df[1] = df[1].mask((df[1] > 78.0) | (df[1] < -17.0), numpy.nan)
+    # HUMIDITY
+    df[2] = df[2].mask((df[2] > 100.0) | (df[2] < 8.0), numpy.nan)
+    # WINDGUST
+    df[3] = df[3].mask((df[3] > 61.0) | (df[3] < 16.0), numpy.nan)
+    # WINDSPEED
+    df[4] = df[4].mask((df[4] > 33.0) | (df[4] < 0.0), numpy.nan)
+    # WINDDIR
+    df[5] = df[5].mask((df[5] > 360.0) | (df[5] < 0.0), numpy.nan)
+    # SEALEVELPRESSURE
+    # df[6] = df[6].mask((df[6] > 1045) | (df[6] < 975.0), numpy.nan)
+    # CLOUDCOVER
+    df[6] = df[6].mask((df[6] > 100.0) | (df[6] < 0.0), numpy.nan)
+    # LOAD
+    df[9].replace(666999.0, numpy.nan, inplace=True)
+
+    df[0] = df[0].interpolate(method='linear', limit_direction='both')
+    df[1] = df[1].interpolate(method='linear', limit_direction='both')
+    df[2] = df[2].interpolate(method='linear', limit_direction='both')
+    df[3] = df[3].interpolate(method='linear', limit_direction='both')
+    df[4] = df[4].interpolate(method='linear', limit_direction='both')
+    df[5] = df[5].interpolate(method='linear', limit_direction='both')
+    # df[6] = df[6].interpolate(method='linear', limit_direction='both')
+    df[6] = df[6].interpolate(method='linear', limit_direction='both')
+    df[9] = df[9].interpolate(method='linear', limit_direction='both')
 
     return df
 
@@ -141,12 +214,24 @@ def sort_list_by_dates(my_list):
     my_list.sort(key=lambda x: datetime.strptime(x[1], date_format))
     return my_list
 
+
+def check_for_holiday(date, ush_list):
+
+    for i in range(ush_list.__len__()):
+        if (int(date[6:10]) == ush_list[i][1] and
+                date[0:2] == ush_list[i][3][5:7] and
+                date[3:5] == ush_list[i][3][8:10]):
+            return True
+
+    return False
+
+
 def get_month_123(dt):
-    if (dt == 1 | dt == 12 | dt == 2):
+    if (dt == 1 or dt == 12 or dt == 2):
         return 1
-    elif (dt == 3 | dt == 11):
+    elif (dt == 3 or dt == 11):
         return 2
-    elif (dt == 4 | dt == 5 | dt == 10):
+    elif (dt == 4 or dt == 5 or dt == 10):
         return 3
     else:
         return 4

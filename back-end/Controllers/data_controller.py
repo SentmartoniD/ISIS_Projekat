@@ -42,12 +42,16 @@ def us_holidays_data():
 
 @app.route('/api/TrainModel', methods=['POST'])
 def train_model():
-    data = request.json
-    startDate = data.get('startDate')
-    endDate = data.get('endDate')
-    print(startDate)
-    print(endDate)
-    return jsonify({'message': 'File uploaded successfully'}), 200
+    try:
+        data = request.json
+        startDate = data.get('startDate')
+        endDate = data.get('endDate')
+        print(startDate)
+        print(endDate)
+        return jsonify({'message': 'File uploaded successfully'}), 200
+    except Exception as e:
+        error_message = f'An error occurred: {str(e)}'
+        return jsonify({'error': error_message}), 500
 
 
 @app.route('/api/BeginForecast', methods=['POST'])

@@ -14,5 +14,5 @@ def initialize_database_and_tables():
 if __name__ == '__main__':
     initialize_database_and_tables()
     app.run(debug=True)
-    #training_service.train_model()
+    #training_service.train_model_all()
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
