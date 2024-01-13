@@ -14,7 +14,8 @@ def train_model_all():
     # prepare data
     preparer = CustomPreparer(dataframe, NUMBER_OF_COLUMNS, SHARE_FOR_TRAINING)
     trainX, trainY, testX, testY = preparer.prepare_for_training()
-
+    print(trainX)
+    print(trainY)
     # make predictions
     ann_regression = AnnRegression()
     time_begin = time.time()

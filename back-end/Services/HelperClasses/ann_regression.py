@@ -3,7 +3,7 @@ from keras.models import Sequential
 from tensorflow import keras
 from Services.HelperClasses.ann_base import AnnBase
 
-MODEL_NAME = 'current_model'
+MODEL_NAME = 'Services/Models/current_model'
 
 class AnnRegression(AnnBase):
     def get_model(self):

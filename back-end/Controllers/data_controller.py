@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from Services import database_service
+from Services import database_service, training_service
 import pandas
 
 app = Flask("Electric consumption forecast app")
@@ -46,8 +46,7 @@ def train_model():
         data = request.json
         startDate = data.get('startDate')
         endDate = data.get('endDate')
-        print(startDate)
-        print(endDate)
+        training_service.train_model(startDate, endDate)
         return jsonify({'message': 'File uploaded successfully'}), 200
     except Exception as e:
         error_message = f'An error occurred: {str(e)}'
