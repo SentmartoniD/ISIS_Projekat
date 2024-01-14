@@ -106,11 +106,13 @@ def preprocess_all():
                  loaddata_list[i][1][3:5] == weatherdata_list[j][2][8:10] and
                  loaddata_list[i][1][11:13] == weatherdata_list[j][2][11:13]):
                 # get_month_123(int(weatherdata_list[j][2][5:7])),
+                # loaddata_list[i][5] if i == 0 else loaddata_list[i-1][5],
+                # loaddata_list[i][5] if i == loaddata_list.__len__() - 1 else loaddata_list[i+1][5],
                 elem = [weatherdata_list[j][3], weatherdata_list[j][5], weatherdata_list[j][6],
                         weatherdata_list[j][12], weatherdata_list[j][13], weatherdata_list[j][14],
                          weatherdata_list[j][16],
-                        loaddata_list[i][5] if i == 0 else loaddata_list[i-1][5],
-                        loaddata_list[i][5] if i == loaddata_list.__len__() - 1 else loaddata_list[i+1][5],
+
+
                         loaddata_list[i][5]]
                 data_list.append(elem)
 
@@ -133,7 +135,7 @@ def preprocess_all():
     # CLOUDCOVER
     df[6] = df[6].mask((df[6] > 100.0) | (df[6] < 0.0), numpy.nan)
     # LOAD
-    df[9].replace(666999.0, numpy.nan, inplace=True)
+    df[7].replace(666999.0, numpy.nan, inplace=True)
 
     df[0] = df[0].interpolate(method='linear', limit_direction='both')
     df[1] = df[1].interpolate(method='linear', limit_direction='both')
@@ -143,7 +145,7 @@ def preprocess_all():
     df[5] = df[5].interpolate(method='linear', limit_direction='both')
     #df[6] = df[6].interpolate(method='linear', limit_direction='both')
     df[6] = df[6].interpolate(method='linear', limit_direction='both')
-    df[9] = df[9].interpolate(method='linear', limit_direction='both')
+    df[7] = df[7].interpolate(method='linear', limit_direction='both')
 
     return df
 

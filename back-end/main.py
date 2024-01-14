@@ -18,6 +18,6 @@ if __name__ == '__main__':
     #app.run(debug=True)
     #training_service.train_model('2020-01-11', '2021-01-11')
     #rez = database_read_functions.read_from_weatherdata_table_by_date_and_days('2021-01-11', 2)
-    predict_service.predict('2020-01-11', 5)
-    #training_service.train_model_and_predict()
+    #predict_service.predict('2020-01-11', 5)
+    training_service.train_model_and_predict()
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
