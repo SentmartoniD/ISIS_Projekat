@@ -1,6 +1,7 @@
 import numpy
 from sklearn.preprocessing import MinMaxScaler
 
+
 class CustomPreparer:
     def __init__(self, dataframe, number_of_columns, share_for_training):
         self.scaler = MinMaxScaler(feature_range=(0, 1))

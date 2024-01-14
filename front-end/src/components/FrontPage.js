@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { SendUSHolidaysData, SendWeatherData, SendLoadData, TrainModel, BeginForecast, ShowGraph } from "../services/FrontPageService";
+import MyModal from "./MyModal";
 
 function FrontPage(){
     const [loadData, setLoadData] = useState([]);
@@ -11,6 +12,7 @@ function FrontPage(){
     const [daysForForecast, setDaysForForecast] = useState();
     const [endDateForGraph, setEndDateForGraph] = useState();
     const [startDateForGraph, setStartDateForGraph] = useState();
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleFilesChange1 = (event) => {
         const files = event.target.files;
@@ -113,6 +115,7 @@ function FrontPage(){
       }
 
     const handleSubmitShowGraph = async (e) =>{
+        //openModal
         if(startDateForGraph === undefined || endDateForGraph === undefined)
             alert("Pick both dates!")
         if(startDateForGraph > endDateForGraph)
@@ -131,6 +134,13 @@ function FrontPage(){
     function hasExtension(fileName, ext){
         return fileName.toLowerCase().endsWith(ext.toLowerCase());
     }
+    const openModal = () => {
+        setIsModalOpen(true);
+      };
+    
+      const closeModal = () => {
+        setIsModalOpen(false);
+      };
 
     return(
         <section className="frontpage-section" >
@@ -164,6 +174,7 @@ function FrontPage(){
                 <label className="frontpage-label" >End date for graph</label>
                 <input type="date" onChange={(e) => setEndDateForGraph(e.target.value)} ></input>
                 <button className="frontpage-button" onClick={handleSubmitShowGraph} >SHOW GRAPH</button>
+                
             </div>
         </section>
     )

@@ -7,7 +7,7 @@ from DatabaseFunctions import database_read_functions
 
 MODEL_PATH = 'Services/Models/model_87_55'
 NUMBER_OF_COLUMNS = 10
-SHARE_FOR_TRAINING = 1
+SHARE_FOR_TRAINING = 0
 
 
 def predict(start_date, days):
@@ -26,8 +26,9 @@ def predict(start_date, days):
 
     # prepare data
     preparer = CustomPreparer(dataframe, NUMBER_OF_COLUMNS, SHARE_FOR_TRAINING)
+
+    testX, testY = preparer.prepare_for_training()
     '''
-    trainX, trainY, testX, testY = preparer.prepare_for_training()
     print("trainX")
     print(trainX)
     print("trainY")
@@ -37,12 +38,25 @@ def predict(start_date, days):
     print("testY")
     print(testY)
     '''
+
     # predict results
     ann_regression = AnnRegression()
-    #ann_regression.use_current_model(MODEL_PATH, )
-    #ann_regression.get_predict()
+    testPredict = ann_regression.predict_with_model_from_path(testX, MODEL_PATH)
+
+    print("testPredict")
+    print(testPredict)
+
     #model = ann_regression.get_model_from_path(MODEL_PATH)
     #print(model)
+    testPredict, testY = preparer.inverse_transform_plot(testPredict)
+    print("trainPredict")
+    print(trainPredict)
+    print("trainY")
+    print(trainY)
+    print("testPredict")
+    print(testPredict)
+    print("testY")
+    print(testY)
 
     # writre to db
     predictedloaddata_list = []

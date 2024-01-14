@@ -41,3 +41,7 @@ class AnnRegression(AnnBase):
         self.compile_and_fit(trainX, trainY)
         #self.use_current_model(MODEL_NAME, trainX)
         return self.get_predict(testX)
+
+    def predict_with_model_from_path(self, testX, path):
+        self.model = self.get_model_from_path(path)
+        return self.get_predict(testX)
