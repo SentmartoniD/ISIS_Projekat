@@ -60,4 +60,17 @@ def insert_into_weatherdata_table(name, datetime, temp, feelslike, dew, humidity
     return
 
 
-# READ OPERATIONS
+def insert_into_predictedloaddata_table(timestamp, predicted_load):
+    db = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        passwd="root",
+        database=f"{DATABASE_NAME}"
+    )
+    my_cursor = db.cursor()
+    my_cursor.execute("INSERT INTO LoadData (timestamp,  predicted_load) "
+                      "VALUES (%s,%s)", (timestamp, predicted_load))
+    db.commit()
+    my_cursor.close()
+    db.close()
+    return

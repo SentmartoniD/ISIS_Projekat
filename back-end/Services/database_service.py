@@ -69,3 +69,11 @@ def fill_usholidays_table(usholidaysdata_files):
         database_insert_functions.insert_into_usholidays_table(
             listyears[year_counter], row[row.index[1]], row[row.index[2]].strftime('%Y-%m-%d'), row[row.index[3]])
     return "Done inserting into usholidays table!"
+
+
+def fill_predictedloaddata_table(predictedloaddata_files):
+    for i in range(predictedloaddata_files.__len__()):
+        database_insert_functions.insert_into_predictedloaddata_table(
+            predictedloaddata_files[0], predictedloaddata_files[1])
+
+    return

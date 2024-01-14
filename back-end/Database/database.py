@@ -75,3 +75,19 @@ def create_weather_data_table():
     my_cursor.close()
     db.close()
     return
+
+
+def create_predicted_load_data_table():
+    db = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        passwd="root",
+        database=f"{DATABASE_NAME}"
+    )
+    my_cursor = db.cursor()
+    if not table_exists(my_cursor, 'PredictedLoadData'):
+        my_cursor.execute("CREATE TABLE PredictedLoadData (LD_ID int PRIMARY KEY AUTO_INCREMENT, timestamp VARCHAR(20), "
+                          "predicted_load DOUBLE)")
+    my_cursor.close()
+    db.close()
+    return

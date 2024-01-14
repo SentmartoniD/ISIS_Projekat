@@ -8,14 +8,20 @@ NUMBER_OF_COLUMNS = 10
 SHARE_FOR_TRAINING = 0.85
 
 
-def train_model_all():
+def train_model_and_predict():
     dataframe = preprocessing_service.preprocess_all()
 
     # prepare data
     preparer = CustomPreparer(dataframe, NUMBER_OF_COLUMNS, SHARE_FOR_TRAINING)
     trainX, trainY, testX, testY = preparer.prepare_for_training()
+    print("trainX")
     print(trainX)
+    print("trainY")
     print(trainY)
+    print("testX")
+    print(testX)
+    print("testY")
+    print(testY)
     # make predictions
     ann_regression = AnnRegression()
     time_begin = time.time()

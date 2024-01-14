@@ -72,3 +72,42 @@ def read_from_weatherdata_table_by_dates(start_date, end_date):
     my_cursor.close()
     db.close()
     return result
+
+
+def read_from_weatherdata_table_by_date_and_days(start_date, days):
+    db = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        passwd="root",
+        database=f"{DATABASE_NAME}"
+    )
+    my_cursor = db.cursor()
+    sql_query = "select * from weatherdata where substring(datetime, 1, 10) >= %s limit %s"
+    my_cursor.execute(sql_query, (start_date, days * 24))
+    result = my_cursor.fetchall()
+    my_cursor.close()
+    db.close()
+    return result
+
+
+def read_from_predictedloaddata_table_all(start_date, end_date):
+    db = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        passwd="root",
+        database=f"{DATABASE_NAME}"
+    )
+    my_cursor = db.cursor()
+    sql_query = """
+    SELECT *
+    FROM PredictedLoadData
+    WHERE timestamp BETWEEN 
+        (SELECT timestamp FROM weatherdata WHERE SUBSTRING(timestamp, 1, 10) = %s AND SUBSTRING(timestamp, 12, 2) = '00') 
+        AND 
+        (SELECT timestamp FROM weatherdata WHERE SUBSTRING(timestamp, 1, 10) = %s AND SUBSTRING(timestamp, 12, 2) = '00')
+    """
+    my_cursor.execute(sql_query, (start_date, end_date))
+    result = my_cursor.fetchall()
+    my_cursor.close()
+    db.close()
+    return result
