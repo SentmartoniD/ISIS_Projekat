@@ -197,9 +197,9 @@ function FrontPage(){
                             <table>
                                 <thead>
                                     <tr>
-                                    <th className="small-text"  >ID</th>
+                                    <th className="small-text"  >Index</th>
                                     <th className="small-text"  >Date</th>
-                                    <th className="small-text"  >Value</th>
+                                    <th className="small-text"  >Predicted load</th>
                                     </tr>
                                 </thead>
                                 <tbody>
