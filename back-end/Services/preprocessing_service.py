@@ -158,9 +158,8 @@ def preprocess(start_date, end_date):
     weatherdata_list = database_read_functions.read_from_weatherdata_table_by_dates(start_date, end_date)
     dt_list = database_read_functions.read_from_loaddata_table()
 
-
     loaddata_list = sort_list_by_dates(dt_list)
-    # TEMP DEW HUMIDITY WINDGUST WINDSPEED WINDDIR CLOUDCOVER MONTHS PREVLOAD NEXTLOAD LOAD
+    # TEMP DEW HUMIDITY WINDGUST WINDSPEED WINDDIR SEALEVELPRESSURE CLOUDCOVER MONTHS PREVTEMP LOAD
     data_list = []
     for i in range(loaddata_list.__len__()):
         # CHECK IF IT IS A HOLIDAY
