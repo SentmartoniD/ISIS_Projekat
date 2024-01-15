@@ -105,7 +105,7 @@ def preprocess_all():
                  loaddata_list[i][1][0:2] == weatherdata_list[j][2][5:7] and
                  loaddata_list[i][1][3:5] == weatherdata_list[j][2][8:10] and
                  loaddata_list[i][1][11:13] == weatherdata_list[j][2][11:13]):
-                # get_month_123(int(weatherdata_list[j][2][5:7])),
+                # get_month_1234(int(weatherdata_list[j][2][5:7])),
                 # loaddata_list[i][5] if i == 0 else loaddata_list[i-1][5],
                 # loaddata_list[i][5] if i == loaddata_list.__len__() - 1 else loaddata_list[i+1][5],
                 elem = [weatherdata_list[j][3], weatherdata_list[j][5], weatherdata_list[j][6],
@@ -158,6 +158,7 @@ def preprocess(start_date, end_date):
     weatherdata_list = database_read_functions.read_from_weatherdata_table_by_dates(start_date, end_date)
     dt_list = database_read_functions.read_from_loaddata_table()
 
+
     loaddata_list = sort_list_by_dates(dt_list)
     # TEMP DEW HUMIDITY WINDGUST WINDSPEED WINDDIR CLOUDCOVER MONTHS PREVLOAD NEXTLOAD LOAD
     data_list = []
@@ -174,9 +175,9 @@ def preprocess(start_date, end_date):
                 # get_month_123(int(weatherdata_list[j][2][5:7])),
                 elem = [weatherdata_list[j][3], weatherdata_list[j][5], weatherdata_list[j][6],
                         weatherdata_list[j][12], weatherdata_list[j][13], weatherdata_list[j][14],
-                        weatherdata_list[j][16],
-                        loaddata_list[i][5] if i == 0 else loaddata_list[i - 1][5],
-                        loaddata_list[i][5] if i == loaddata_list.__len__() - 1 else loaddata_list[i + 1][5],
+                        weatherdata_list[j][15], weatherdata_list[j][16],
+                        weatherdata_list[j][3] if j == 0 else weatherdata_list[j - 1][3],
+                        int(weatherdata_list[j][2][5:7]),
                         loaddata_list[i][5]]
                 data_list.append(elem)
 
@@ -195,11 +196,11 @@ def preprocess(start_date, end_date):
     # WINDDIR
     df[5] = df[5].mask((df[5] > 360.0) | (df[5] < 0.0), numpy.nan)
     # SEALEVELPRESSURE
-    # df[6] = df[6].mask((df[6] > 1045) | (df[6] < 975.0), numpy.nan)
+    df[6] = df[6].mask((df[6] > 1045) | (df[6] < 975.0), numpy.nan)
     # CLOUDCOVER
-    df[6] = df[6].mask((df[6] > 100.0) | (df[6] < 0.0), numpy.nan)
+    df[7] = df[7].mask((df[7] > 100.0) | (df[7] < 0.0), numpy.nan)
     # LOAD
-    df[9].replace(666999.0, numpy.nan, inplace=True)
+    df[10].replace(666999.0, numpy.nan, inplace=True)
 
     df[0] = df[0].interpolate(method='linear', limit_direction='both')
     df[1] = df[1].interpolate(method='linear', limit_direction='both')
@@ -207,9 +208,9 @@ def preprocess(start_date, end_date):
     df[3] = df[3].interpolate(method='linear', limit_direction='both')
     df[4] = df[4].interpolate(method='linear', limit_direction='both')
     df[5] = df[5].interpolate(method='linear', limit_direction='both')
-    # df[6] = df[6].interpolate(method='linear', limit_direction='both')
     df[6] = df[6].interpolate(method='linear', limit_direction='both')
-    df[9] = df[9].interpolate(method='linear', limit_direction='both')
+    df[7] = df[7].interpolate(method='linear', limit_direction='both')
+    df[10] = df[10].interpolate(method='linear', limit_direction='both')
 
     return df
 
@@ -231,7 +232,7 @@ def check_for_holiday(date, ush_list):
     return False
 
 
-def get_month_123(dt):
+def get_month_1234(dt):
     if (dt == 1 or dt == 12 or dt == 2):
         return 1
     elif (dt == 3 or dt == 11):

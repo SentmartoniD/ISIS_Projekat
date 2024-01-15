@@ -93,7 +93,7 @@ function FrontPage(){
             if (!error?.response)
                 alert("No server response!")
             else
-                alert(JSON.stringify(error.response.data))
+                alert(JSON.stringify(error.response.data.message))
         }
       }
 

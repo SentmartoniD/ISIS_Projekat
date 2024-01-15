@@ -7,7 +7,7 @@ from DatabaseFunctions import database_read_functions
 
 CSV_FILE_NAME = "prognoza_elektricne_energije(load).csv"
 MODEL_PATH = 'Services/Models/model_t_d_h_wg_ws_wd_cc_prevtemp_months1-12_l_973_934'
-NUMBER_OF_COLUMNS = 9
+NUMBER_OF_COLUMNS = 11
 SHARE_FOR_TRAINING = 0
 
 
@@ -20,7 +20,9 @@ def predict(start_date, days):
     for i in range(weatherdata_list.__len__()):
         elem = [weatherdata_list[i][3], weatherdata_list[i][5], weatherdata_list[i][6],
                 weatherdata_list[i][12], weatherdata_list[i][13], weatherdata_list[i][14],
-                weatherdata_list[i][16], -1]
+                weatherdata_list[i][15], weatherdata_list[i][16],
+                weatherdata_list[i][3] if i == 0 else weatherdata_list[i-1][3],
+                int(weatherdata_list[i][2][5:7]), -1]
         data_list.append(elem)
     dataframe = pandas.DataFrame(data_list)
     print(dataframe)

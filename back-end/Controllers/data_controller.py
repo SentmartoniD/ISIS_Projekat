@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from Services import database_service, training_service
+from Services import database_service, training_service, predict_service
 import pandas
 
 app = Flask("Electric consumption forecast app")
@@ -29,8 +29,9 @@ def weather_data():
             return jsonify({'error': 'No file part'}), 400
         else:
             WEATHER_DATA_FILES = request.files
-            #result = database_service.fill_weatherdata_table(WEATHER_DATA_FILES)
-            #print(result)
+            print(WEATHER_DATA_FILES)
+            result = database_service.fill_weatherdata_table(WEATHER_DATA_FILES)
+            print(result)
             return jsonify({'message': 'Files uploaded successfully'}), 200
     except Exception as e:
         error_message = f'An error occurred: {str(e)}'
@@ -59,20 +60,22 @@ def train_model():
         startDate = data.get('startDate')
         endDate = data.get('endDate')
         training_service.train_model(startDate, endDate)
-        return jsonify({'message': 'File uploaded successfully'}), 200
     except Exception as e:
-        error_message = f'An error occurred: {str(e)}'
-        return jsonify({'message': error_message}), 500
+        return jsonify({'message': "Pogresni datumi izabrani, izaberite ponovo!"}), 500
+
 
 
 @app.route('/api/BeginForecast', methods=['POST'])
 def begin_forecast_action():
-    data = request.json
-    startDate = data.get('startDate')
-    days = data.get('days')
-    print(startDate)
-    print(days)
-    return jsonify({'message': 'File uploaded successfully'}), 200
+    try:
+        data = request.json
+        startDate = data.get('startDate')
+        days = data.get('days')
+        predict_service.predict(startDate, days)
+        return jsonify({'message': 'File uploaded successfully'}), 200
+    except Exception as e:
+        error_message = f'An error occurred: {str(e)}'
+        return jsonify({'message': error_message}), 500
 
 
 @app.route('/api/ShowGraph', methods=['POST'])
