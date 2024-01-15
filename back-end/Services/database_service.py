@@ -1,4 +1,4 @@
-from DatabaseFunctions import database_insert_functions
+from DatabaseFunctions import database_insert_functions, database_read_functions
 import pandas
 
 SPECIAL_NUMBER = 666999
@@ -77,3 +77,8 @@ def fill_predictedloaddata_table(predictedloaddata_files):
             predictedloaddata_files[i][0], predictedloaddata_files[i][1])
 
     return
+
+
+def get_from_predictedloaddata_table_by_dates(start_date, end_date):
+    data_list = database_read_functions.read_from_predictedloaddata_table_all(start_date, end_date)
+    return data_list

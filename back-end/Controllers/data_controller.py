@@ -65,29 +65,29 @@ def train_model():
         return jsonify({'message': "Pogresni datumi izabrani, izaberite ponovo!"}), 500
 
 
-
 @app.route('/api/BeginForecast', methods=['POST'])
 def begin_forecast_action():
     try:
         data = request.json
         startDate = data.get('startDate')
         days = data.get('days')
-        print(startDate)
-        print(type(startDate))
-        print(days)
-        print(type(days))
         predict_service.predict(startDate, int(days))
         return jsonify({'message': 'Prognoza uspesna!'}), 200
     except Exception as e:
+        return jsonify({'message': "Pogresan datum je izabran, izaberite ponovo!"}), 500
+
+
+@app.route('/api/ShowData', methods=['POST'])
+def begin_forecast():
+    try:
+        data = request.json
+        startDate = data.get('startDate')
+        endDate = data.get('endDate')
+        data_list = database_service.get_from_predictedloaddata_table_by_dates(startDate, endDate)
+        if data_list.__len__() == 0:
+            return jsonify({'message': "Pogresni datumi izabrani, izaberite ponovo!"}), 500
+        else:
+            return jsonify({'data_list': data_list, 'message': 'Uspesno primljeni podaci'}), 200
+    except Exception as e:
         error_message = f'An error occurred: {str(e)}'
         return jsonify({'message': error_message}), 500
-
-
-@app.route('/api/ShowGraph', methods=['POST'])
-def begin_forecast():
-    data = request.json
-    startDate = data.get('startDate')
-    endDate = data.get('endDate')
-    print(startDate)
-    print(endDate)
-    return jsonify({'message': 'File uploaded successfully'}), 200

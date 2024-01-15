@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SendUSHolidaysData, SendWeatherData, SendLoadData, TrainModel, BeginForecast, ShowGraph } from "../services/FrontPageService";
+import { SendUSHolidaysData, SendWeatherData, SendLoadData, TrainModel, BeginForecast, ShowData } from "../services/FrontPageService";
 import MyModal from "./MyModal";
 
 function FrontPage(){
@@ -83,50 +83,54 @@ function FrontPage(){
     const handleSubmitTrainModel = async (e) =>{
         if(startDateForTraining === undefined || endDateForTraining === undefined)
             alert("Pick both dates!")
-        if(startDateForTraining > endDateForTraining)
+        else if(startDateForTraining > endDateForTraining)
             alert("The end date is before the start date, pick end date again!")
-        try{
-            const response = await TrainModel(startDateForTraining, endDateForTraining);
-            alert(response.data.message);
-        }catch(error){
-            if (!error?.response)
-                alert("No server response!")
-            else
-                alert(JSON.stringify(error.response.data.message))
-        }
+        else
+            try{
+                const response = await TrainModel(startDateForTraining, endDateForTraining);
+                console.log(response)
+                alert(response.data.message);
+            }catch(error){
+                if (!error?.response)
+                    alert("No server response!")
+                else
+                    alert(JSON.stringify(error.response.data.message))
+            }
       }
 
     const handleSubmitBeginForecast = async (e) =>{
         if(daysForForecast === undefined || startDateForForecast === undefined)
             alert("Pick a date and the number of days!")
-        if(daysForForecast < 1 || daysForForecast > 7)
+        else if(daysForForecast < 1 || daysForForecast > 7)
             alert("NUmber of days for forecast mus be bethween 1 and 7!")
-        try{
-            const response = await BeginForecast(startDateForForecast, daysForForecast);
-            alert(response.data.message);
-        }catch(error){
-            if (!error?.response)
-                alert("No server response!")
-            else
-                alert(JSON.stringify(error.response.data))
-        }        
+        else
+            try{
+                const response = await BeginForecast(startDateForForecast, daysForForecast);
+                alert(response.data.message);
+            }catch(error){
+                if (!error?.response)
+                    alert("No server response!")
+                else
+                    alert(JSON.stringify(error.response.data.message))
+            }        
       }
 
     const handleSubmitShowGraph = async (e) =>{
-        //openModal
         if(startDateForGraph === undefined || endDateForGraph === undefined)
             alert("Pick both dates!")
-        if(startDateForGraph > endDateForGraph)
+        else  if(startDateForGraph > endDateForGraph)
             alert("The end date is before the start date, pick end date again!")
-        try{
-            const response = await ShowGraph(startDateForGraph, endDateForGraph);
-            console.log(response);
-        }catch(error){
-            if (!error?.response)
-                alert("No server response!")
-            else
-                alert(JSON.stringify(error.response.data))
-        }
+        else
+            try{
+                const response = await ShowData(startDateForGraph, endDateForGraph);
+                console.log(response.data)
+                console.log(response.data.data_list[0])
+            }catch(error){
+                if (!error?.response)
+                    alert("No server response!")
+                else
+                    alert(JSON.stringify(error.response.data.message))
+            }
       }
 
     function hasExtension(fileName, ext){
@@ -183,7 +187,7 @@ function FrontPage(){
                     <label className="frontpage-label" >End date for graph</label>
                     <input className="frontpage-input-date" type="date" onChange={(e) => setEndDateForGraph(e.target.value)} ></input>
                 </div>
-                <button className="frontpage-button" onClick={handleSubmitShowGraph} >SHOW GRAPH</button>
+                <button className="frontpage-button" onClick={handleSubmitShowGraph} >SHOW DATA</button>
                 
             </div>
         </section>

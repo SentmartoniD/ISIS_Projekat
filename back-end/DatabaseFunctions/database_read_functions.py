@@ -102,9 +102,9 @@ def read_from_predictedloaddata_table_all(start_date, end_date):
     SELECT *
     FROM PredictedLoadData
     WHERE timestamp BETWEEN 
-        (SELECT timestamp FROM weatherdata WHERE SUBSTRING(timestamp, 1, 10) = %s AND SUBSTRING(timestamp, 12, 2) = '00') 
+        (SELECT timestamp FROM PredictedLoadData WHERE SUBSTRING(timestamp, 1, 10) = %s AND SUBSTRING(timestamp, 12, 2) = '00') 
         AND 
-        (SELECT timestamp FROM weatherdata WHERE SUBSTRING(timestamp, 1, 10) = %s AND SUBSTRING(timestamp, 12, 2) = '00')
+        (SELECT timestamp FROM PredictedLoadData WHERE SUBSTRING(timestamp, 1, 10) = %s AND SUBSTRING(timestamp, 12, 2) = '22')
     """
     my_cursor.execute(sql_query, (start_date, end_date))
     result = my_cursor.fetchall()
