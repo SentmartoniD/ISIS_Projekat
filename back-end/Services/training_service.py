@@ -4,7 +4,7 @@ from Services.HelperClasses.ann_regression import AnnRegression
 from Services.HelperClasses.scorer import Scorer
 import time
 
-NUMBER_OF_COLUMNS = 8
+NUMBER_OF_COLUMNS = 11
 SHARE_FOR_TRAINING = 0.85
 
 

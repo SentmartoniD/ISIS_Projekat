@@ -85,28 +85,18 @@ class CustomPreparer:
         return testPredict, testY
 
     def inverse_transform_test_predict(self, testPredict):
-
         testPredict = numpy.reshape(testPredict, (testPredict.shape[0], testPredict.shape[1]))
-
         self.testX = numpy.reshape(self.testX, (self.testX.shape[0], self.testX.shape[2]))
         testXAndPredict = numpy.concatenate((self.testX, testPredict),axis=1)
-
-
         testXAndPredict = self.scaler.inverse_transform(testXAndPredict)
-
-
         testPredict = testXAndPredict[:,self.predictor_column_no]
-
         data_list = []
-
         a = 3589
         b = 11111
         min_test_predict = min(testPredict)
         max_test_predict = max(testPredict)
-
         for item in testPredict:
             data_list.append(round(self.invert_function_load(item, a, b, min_test_predict, max_test_predict),2))
-
         return data_list
 
     def create_dataset(self, dataset, look_back):
@@ -116,7 +106,6 @@ class CustomPreparer:
             dataX.append(a)
             dataY.append(dataset[i, look_back-1])
         return numpy.array(dataX), numpy.array(dataY)
-
 
     def invert_function_load(self, x, a, b, min, max):
         return (((b - a) * (x - min) )/ (max - min)) + a

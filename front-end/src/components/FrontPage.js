@@ -32,15 +32,14 @@ function FrontPage(){
       };
 
     const handleSubmitSendData = async (e) =>{
-        
         if(usHolidaysData === undefined && !weatherData.length && !loadData.length)
-            return
+            alert("No data to send!")
         if(usHolidaysData === undefined)
             console.log("USHolidays data empty!")
         else if (hasExtension(usHolidaysData.name, ".xlsx"))
             try{
                 const response = await SendUSHolidaysData(usHolidaysData);
-                console.log(response);
+                alert(response.data.message);
             }catch(error){
                 if (!error?.response)
                     alert("No server response!")
@@ -55,7 +54,7 @@ function FrontPage(){
         else if (hasExtension(weatherData[0].name, ".csv"))       
             try{
              const response = await SendWeatherData(weatherData);
-             console.log(response);
+             alert(response.data.message);
             }catch(error){
                 if (!error?.response)
                     alert("No server response!")
@@ -70,7 +69,7 @@ function FrontPage(){
         else if (hasExtension(loadData[0].name, ".csv"))              
             try{
              const response = await SendLoadData(loadData);
-             console.log(response);
+             alert(response.data.message);
             }catch(error){
                 if (!error?.response)
                     alert("No server response!")

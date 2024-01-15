@@ -6,8 +6,8 @@ from Services.HelperClasses.ann_regression import AnnRegression
 from DatabaseFunctions import database_read_functions
 
 CSV_FILE_NAME = "prognoza_elektricne_energije(load).csv"
-MODEL_PATH = 'Services/Models/model_t_d_h_wg_ws_wd_cc_l_11_11'
-NUMBER_OF_COLUMNS = 8
+MODEL_PATH = 'Services/Models/model_t_d_h_wg_ws_wd_cc_prevtemp_months1-12_l_973_934'
+NUMBER_OF_COLUMNS = 9
 SHARE_FOR_TRAINING = 0
 
 
