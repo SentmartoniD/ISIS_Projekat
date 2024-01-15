@@ -157,20 +157,32 @@ function FrontPage(){
                     <input type="file" onChange={handleFileChange} ></input>
                 </div>
                 <button className="frontpage-button" onClick={handleSubmitSendData} >SEND DATA</button>
-                <label className="frontpage-label" >Start date for training</label>
-                <input type="date" onChange={(e) => setStartDateForTraining(e.target.value)}></input>
-                <label className="frontpage-label" >End date for training</label>
-                <input type="date" onChange={(e) => setEndDateForTraining(e.target.value)}></input>
+                <div className="frontpage-div2" >
+                    <label className="frontpage-label" >Start date for training:</label>
+                    <input className="frontpage-input-date" type="date" onChange={(e) => setStartDateForTraining(e.target.value)}></input>
+                </div>
+                <div className="frontpage-div2" >
+                    <label className="frontpage-label" >End date for training:</label>
+                    <input className="frontpage-input-date" type="date" onChange={(e) => setEndDateForTraining(e.target.value)}></input>
+                </div>
                 <button className="frontpage-button" onClick={handleSubmitTrainModel} >TRAIN MODEL</button>
-                <label className="frontpage-label" >Start date for forecast</label>
-                <input type="date" onChange={(e) => setStartDateForForecast(e.target.value)} ></input>
-                <label className="frontpage-label" >Number of days(max 7)</label>
-                <input type="number" onChange={(e) => setDaysForForecast(e.target.value)} ></input>
+                <div className="frontpage-div2" >
+                    <label className="frontpage-label" >Start date for forecast</label>
+                    <input className="frontpage-input-date" type="date" onChange={(e) => setStartDateForForecast(e.target.value)} ></input>
+                </div>
+                <div className="frontpage-div2" >
+                    <label className="frontpage-label" >Number of days(max 7)</label>
+                    <input className="frontpage-input-date" type="number" onChange={(e) => setDaysForForecast(e.target.value)} ></input>
+                </div>
                 <button className="frontpage-button" onClick={handleSubmitBeginForecast} >BEGIN FORECAST</button>
-                <label className="frontpage-label" >Start date for graph</label>
-                <input type="date" onChange={(e) => setStartDateForGraph(e.target.value)} ></input>
-                <label className="frontpage-label" >End date for graph</label>
-                <input type="date" onChange={(e) => setEndDateForGraph(e.target.value)} ></input>
+                <div className="frontpage-div2" >
+                    <label className="frontpage-label" >Start date for graph</label>
+                    <input className="frontpage-input-date" type="date" onChange={(e) => setStartDateForGraph(e.target.value)} ></input>
+                </div>
+                <div className="frontpage-div2" >
+                    <label className="frontpage-label" >End date for graph</label>
+                    <input className="frontpage-input-date" type="date" onChange={(e) => setEndDateForGraph(e.target.value)} ></input>
+                </div>
                 <button className="frontpage-button" onClick={handleSubmitShowGraph} >SHOW GRAPH</button>
                 
             </div>
