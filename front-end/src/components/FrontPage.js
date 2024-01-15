@@ -12,7 +12,8 @@ function FrontPage(){
     const [daysForForecast, setDaysForForecast] = useState();
     const [endDateForGraph, setEndDateForGraph] = useState();
     const [startDateForGraph, setStartDateForGraph] = useState();
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modal, setModal] = useState(false);
+    const [predictedData, setPredictedData] = useState();
 
     const handleFilesChange1 = (event) => {
         const files = event.target.files;
@@ -123,6 +124,8 @@ function FrontPage(){
         else
             try{
                 const response = await ShowData(startDateForGraph, endDateForGraph);
+                setPredictedData(response.data.data_list)
+                toggleModal()
                 console.log(response.data)
                 console.log(response.data.data_list[0])
             }catch(error){
@@ -136,13 +139,11 @@ function FrontPage(){
     function hasExtension(fileName, ext){
         return fileName.toLowerCase().endsWith(ext.toLowerCase());
     }
-    const openModal = () => {
-        setIsModalOpen(true);
-      };
-    
-      const closeModal = () => {
-        setIsModalOpen(false);
-      };
+
+    const toggleModal = () => {
+        setModal(!modal)
+
+    }
 
     return(
         <section className="frontpage-section" >
@@ -188,7 +189,35 @@ function FrontPage(){
                     <input className="frontpage-input-date" type="date" onChange={(e) => setEndDateForGraph(e.target.value)} ></input>
                 </div>
                 <button className="frontpage-button" onClick={handleSubmitShowGraph} >SHOW DATA</button>
-                
+                {modal && (
+                    <div className="modal" >
+                        <div className="overlay" onClick={toggleModal} ></div>
+                        <div className="modal-content" >
+                            <h2>Prognozirani podaci!</h2>
+                            <table>
+                                <thead>
+                                    <tr>
+                                    <th className="small-text"  >ID</th>
+                                    <th className="small-text"  >Date</th>
+                                    <th className="small-text"  >Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {predictedData.map((item, index) => (
+                                    <tr key={index}>
+                                        <td className="small-text" >{item[0]}</td>
+                                        <td className="small-text" >{item[1]}</td>
+                                        <td className="small-text" >{item[2]}</td>
+                                    </tr>
+                                    ))}
+                                </tbody>
+                                </table>
+                            <button className="close-modal" onClick={toggleModal} >CLOSE</button>
+                        </div>
+                    </div>
+                    )
+                }
+ 
             </div>
         </section>
     )
