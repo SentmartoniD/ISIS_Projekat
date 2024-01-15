@@ -68,7 +68,7 @@ def insert_into_predictedloaddata_table(timestamp, predicted_load):
         database=f"{DATABASE_NAME}"
     )
     my_cursor = db.cursor()
-    my_cursor.execute("INSERT INTO LoadData (timestamp,  predicted_load) "
+    my_cursor.execute("INSERT INTO PredictedLoadData (timestamp,  predicted_load) "
                       "VALUES (%s,%s)", (timestamp, predicted_load))
     db.commit()
     my_cursor.close()

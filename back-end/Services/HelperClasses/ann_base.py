@@ -1,7 +1,7 @@
 from re import VERBOSE
 
 # 300 - 800
-EPOCH_NUMBER = 2
+EPOCH_NUMBER = 40
 # 1 - 5
 BATCH_SIZE_NUMBER = 1
 COST_FUNCTION = 'mean_squared_error'

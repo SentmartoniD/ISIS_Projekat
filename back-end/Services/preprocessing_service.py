@@ -114,7 +114,7 @@ def preprocess_all():
                         weatherdata_list[j][3] if j == 0 else weatherdata_list[j-1][3],
 
                         int(weatherdata_list[j][2][5:7]),
-
+                        5835,
 
                         loaddata_list[i][5]]
                 data_list.append(elem)
@@ -138,7 +138,7 @@ def preprocess_all():
     # CLOUDCOVER
     df[7] = df[7].mask((df[7] > 100.0) | (df[7] < 0.0), numpy.nan)
     # LOAD
-    df[10].replace(666999.0, numpy.nan, inplace=True)
+    df[11].replace(666999.0, numpy.nan, inplace=True)
 
     df[0] = df[0].interpolate(method='linear', limit_direction='both')
     df[1] = df[1].interpolate(method='linear', limit_direction='both')
@@ -148,7 +148,7 @@ def preprocess_all():
     df[5] = df[5].interpolate(method='linear', limit_direction='both')
     df[6] = df[6].interpolate(method='linear', limit_direction='both')
     df[7] = df[7].interpolate(method='linear', limit_direction='both')
-    df[10] = df[10].interpolate(method='linear', limit_direction='both')
+    df[11] = df[11].interpolate(method='linear', limit_direction='both')
 
     return df
 

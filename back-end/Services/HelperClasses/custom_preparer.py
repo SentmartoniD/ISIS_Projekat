@@ -62,7 +62,7 @@ class CustomPreparer:
         testY = testXAndY[:,self.predictor_column_no];
         return trainPredict, trainY, testPredict, testY
 
-    def inverse_transform_test(self, testPredict):
+    def inverse_transform_plot(self, testPredict):
         #trainPredict = numpy.reshape(trainPredict, (trainPredict.shape[0], trainPredict.shape[1]))
         testPredict = numpy.reshape(testPredict, (testPredict.shape[0], testPredict.shape[1]))
         #self.trainX = numpy.reshape(self.trainX, (self.trainX.shape[0], self.trainX.shape[2]))
@@ -81,8 +81,16 @@ class CustomPreparer:
         #trainY = trainXAndY[:,self.predictor_column_no]
         testPredict = testXAndPredict[:,self.predictor_column_no];
         testY = testXAndY[:,self.predictor_column_no]
+        data_list = []
 
-        return testPredict, testY
+        a = 3589
+        b = 100000000
+        min_test_predict = min(testPredict)
+        max_test_predict = max(testPredict)
+
+        for item in testPredict:
+            data_list.append(round(self.invert_function_load(item, a, b, min_test_predict, max_test_predict), 2))
+        return data_list, testY
 
     def inverse_transform_test_predict(self, testPredict):
         testPredict = numpy.reshape(testPredict, (testPredict.shape[0], testPredict.shape[1]))
@@ -91,6 +99,7 @@ class CustomPreparer:
         testXAndPredict = self.scaler.inverse_transform(testXAndPredict)
         testPredict = testXAndPredict[:,self.predictor_column_no]
         data_list = []
+        # 3589 11111
         a = 3589
         b = 11111
         min_test_predict = min(testPredict)

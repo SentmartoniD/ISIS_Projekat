@@ -74,6 +74,6 @@ def fill_usholidays_table(usholidaysdata_files):
 def fill_predictedloaddata_table(predictedloaddata_files):
     for i in range(predictedloaddata_files.__len__()):
         database_insert_functions.insert_into_predictedloaddata_table(
-            predictedloaddata_files[0], predictedloaddata_files[1])
+            predictedloaddata_files[i][0], predictedloaddata_files[i][1])
 
     return

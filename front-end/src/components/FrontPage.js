@@ -87,8 +87,7 @@ function FrontPage(){
             alert("The end date is before the start date, pick end date again!")
         try{
             const response = await TrainModel(startDateForTraining, endDateForTraining);
-            console.log(response);
-            alert("Trening uspiješno izvršen!")
+            alert(response.data.message);
         }catch(error){
             if (!error?.response)
                 alert("No server response!")
@@ -104,7 +103,7 @@ function FrontPage(){
             alert("NUmber of days for forecast mus be bethween 1 and 7!")
         try{
             const response = await BeginForecast(startDateForForecast, daysForForecast);
-            console.log(response);
+            alert(response.data.message);
         }catch(error){
             if (!error?.response)
                 alert("No server response!")

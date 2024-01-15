@@ -60,6 +60,7 @@ def train_model():
         startDate = data.get('startDate')
         endDate = data.get('endDate')
         training_service.train_model(startDate, endDate)
+        return jsonify({'message': "Trening uspiješno izvršen!"}), 200
     except Exception as e:
         return jsonify({'message': "Pogresni datumi izabrani, izaberite ponovo!"}), 500
 
@@ -71,8 +72,12 @@ def begin_forecast_action():
         data = request.json
         startDate = data.get('startDate')
         days = data.get('days')
-        predict_service.predict(startDate, days)
-        return jsonify({'message': 'File uploaded successfully'}), 200
+        print(startDate)
+        print(type(startDate))
+        print(days)
+        print(type(days))
+        predict_service.predict(startDate, int(days))
+        return jsonify({'message': 'Prognoza uspesna!'}), 200
     except Exception as e:
         error_message = f'An error occurred: {str(e)}'
         return jsonify({'message': error_message}), 500
