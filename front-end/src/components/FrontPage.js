@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { SendUSHolidaysData, SendWeatherData, SendLoadData, TrainModel, BeginForecast, ShowData } from "../services/FrontPageService";
-import MyModal from "./MyModal";
 
 function FrontPage(){
     const [loadData, setLoadData] = useState([]);

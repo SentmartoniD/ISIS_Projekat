@@ -1,6 +1,8 @@
 import numpy
 from sklearn.preprocessing import MinMaxScaler
-
+# 3589 11111
+MIN = 4500.8
+MAX = 7100.56
 
 class CustomPreparer:
     def __init__(self, dataframe, number_of_columns, share_for_training):
@@ -28,7 +30,7 @@ class CustomPreparer:
         self.testY = testY
         return trainX.copy(), trainY.copy(), testX.copy(), testY.copy()
 
-    def prepare_to_predict(self):
+    def prepare_for_predict(self):
         dataset = self.scaler.fit_transform(self.datasetOrig)
         test_size = len(dataset)
         test = dataset[0:test_size,:]
@@ -37,8 +39,6 @@ class CustomPreparer:
         testX = numpy.reshape(testX, (testX.shape[0], 1, testX.shape[1]))
         self.testX = testX
         self.testY = testY
-        print(len(testX))
-        print(testY)
         return testX.copy(),testY.copy()
 
     def inverse_transform(self, trainPredict, testPredict):
@@ -62,35 +62,6 @@ class CustomPreparer:
         testY = testXAndY[:,self.predictor_column_no];
         return trainPredict, trainY, testPredict, testY
 
-    def inverse_transform_plot(self, testPredict):
-        #trainPredict = numpy.reshape(trainPredict, (trainPredict.shape[0], trainPredict.shape[1]))
-        testPredict = numpy.reshape(testPredict, (testPredict.shape[0], testPredict.shape[1]))
-        #self.trainX = numpy.reshape(self.trainX, (self.trainX.shape[0], self.trainX.shape[2]))
-        self.testX = numpy.reshape(self.testX, (self.testX.shape[0], self.testX.shape[2]))
-        #trainXAndPredict = numpy.concatenate((self.trainX, trainPredict),axis=1)
-        testXAndPredict = numpy.concatenate((self.testX, testPredict),axis=1)
-        #trainY = numpy.reshape(self.trainY, (self.trainY.shape[0], 1))
-        testY = numpy.reshape(self.testY, (self.testY.shape[0], 1))
-        #trainXAndY = numpy.concatenate((self.trainX, trainY),axis=1)
-        testXAndY = numpy.concatenate((self.testX, testY),axis=1)
-        #trainXAndPredict = self.scaler.inverse_transform(trainXAndPredict)
-        #trainXAndY = self.scaler.inverse_transform(trainXAndY)
-        testXAndPredict = self.scaler.inverse_transform(testXAndPredict)
-        testXAndY = self.scaler.inverse_transform(testXAndY)
-        #trainPredict = trainXAndPredict[:,self.predictor_column_no];
-        #trainY = trainXAndY[:,self.predictor_column_no]
-        testPredict = testXAndPredict[:,self.predictor_column_no];
-        testY = testXAndY[:,self.predictor_column_no]
-        data_list = []
-
-        a = 3589
-        b = 100000000
-        min_test_predict = min(testPredict)
-        max_test_predict = max(testPredict)
-
-        for item in testPredict:
-            data_list.append(round(self.invert_function_load(item, a, b, min_test_predict, max_test_predict), 2))
-        return data_list, testY
 
     def inverse_transform_test_predict(self, testPredict):
         testPredict = numpy.reshape(testPredict, (testPredict.shape[0], testPredict.shape[1]))
@@ -99,14 +70,15 @@ class CustomPreparer:
         testXAndPredict = self.scaler.inverse_transform(testXAndPredict)
         testPredict = testXAndPredict[:,self.predictor_column_no]
         data_list = []
-        # 3589 11111
-        a = 3589
-        b = 11111
+        a = MIN
+        b = MAX
         min_test_predict = min(testPredict)
         max_test_predict = max(testPredict)
         for item in testPredict:
             data_list.append(round(self.invert_function_load(item, a, b, min_test_predict, max_test_predict),2))
         return data_list
+
+
 
     def create_dataset(self, dataset, look_back):
         dataX, dataY = [], []
@@ -115,6 +87,9 @@ class CustomPreparer:
             dataX.append(a)
             dataY.append(dataset[i, look_back-1])
         return numpy.array(dataX), numpy.array(dataY)
+
+
+
 
     def invert_function_load(self, x, a, b, min, max):
         return (((b - a) * (x - min) )/ (max - min)) + a

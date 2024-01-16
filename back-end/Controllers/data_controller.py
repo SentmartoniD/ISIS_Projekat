@@ -29,6 +29,13 @@ def weather_data():
             return jsonify({'error': 'No file part'}), 400
         else:
             WEATHER_DATA_FILES = request.files
+            '''
+            for key, file in WEATHER_DATA_FILES.items():
+                df = pandas.read_csv(file)
+                for i in range(df.shape[0]):
+                    row = df.iloc[i]
+                    print(row[row.index[0]])
+            '''
             result = database_service.fill_weatherdata_table(WEATHER_DATA_FILES)
             print(result)
             return jsonify({'message': 'Files uploaded successfully'}), 200

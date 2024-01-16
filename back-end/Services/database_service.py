@@ -36,19 +36,19 @@ def fill_weatherdata_table(weatherdata_files):
             SPECIAL_NUMBER if pandas.isna(row[row.index[6]]) else row[row.index[6]],
             SPECIAL_NUMBER if pandas.isna(row[row.index[7]]) else row[row.index[7]],
             SPECIAL_NUMBER if pandas.isna(row[row.index[8]]) else row[row.index[8]],
-            SPECIAL_NUMBER if pandas.isna(row[row.index[9]]) else row[row.index[9]],
-            SPECIAL_NUMBER if pandas.isna(row[row.index[10]]) else row[row.index[10]],
-            SPECIAL_NUMBER if pandas.isna(row[row.index[11]]) else row[row.index[11]],
-            SPECIAL_NUMBER if pandas.isna(row[row.index[12]]) else row[row.index[12]],
-            SPECIAL_NUMBER if pandas.isna(row[row.index[13]]) else row[row.index[13]],
-            SPECIAL_NUMBER if pandas.isna(row[row.index[14]]) else row[row.index[14]],
-            SPECIAL_NUMBER if pandas.isna(row[row.index[15]]) else row[row.index[15]],
-            SPECIAL_NUMBER if pandas.isna(row[row.index[16]]) else row[row.index[16]],
-            SPECIAL_NUMBER if pandas.isna(row[row.index[17]]) else row[row.index[17]],
-            SPECIAL_NUMBER if pandas.isna(row[row.index[18]]) else row[row.index[18]],
-            SPECIAL_NUMBER if pandas.isna(row[row.index[19]]) else int(row[row.index[19]]),
-            SPECIAL_NUMBER if pandas.isna(row[row.index[20]]) else row[row.index[20]],
-            f"{SPECIAL_NUMBER}" if pandas.isna(row[row.index[21]]) else row[row.index[21]])
+            SPECIAL_NUMBER if pandas.isna(float(row[row.index[9]])) else float(row[row.index[9]]),
+            SPECIAL_NUMBER if pandas.isna(float(row[row.index[10]])) else float(row[row.index[10]]),
+            SPECIAL_NUMBER if pandas.isna(float(row[row.index[11]])) else float(row[row.index[11]]),
+            SPECIAL_NUMBER if pandas.isna(float(row[row.index[12]])) else float(row[row.index[12]]),
+            SPECIAL_NUMBER if pandas.isna(float(row[row.index[13]])) else float(row[row.index[13]]),
+            SPECIAL_NUMBER if pandas.isna(float(row[row.index[14]])) else float(row[row.index[14]]),
+            SPECIAL_NUMBER if pandas.isna(float(row[row.index[15]])) else float(row[row.index[15]]),
+            SPECIAL_NUMBER if pandas.isna(float(row[row.index[16]])) else float(row[row.index[16]]),
+            SPECIAL_NUMBER if pandas.isna(float(row[row.index[17]])) else float(row[row.index[17]]),
+            SPECIAL_NUMBER if pandas.isna(float(row[row.index[18]])) else float(row[row.index[18]]),
+            SPECIAL_NUMBER if pandas.isna(int(row[row.index[20]])) else int(row[row.index[20]]),
+            SPECIAL_NUMBER if pandas.isna(float(row[row.index[20]])) else float(row[row.index[20]]),
+            SPECIAL_NUMBER if pandas.isna(row[row.index[21]]) else row[row.index[21]])
     return "Done inserting into weatherdata table!"
 
 

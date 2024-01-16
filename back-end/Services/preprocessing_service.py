@@ -99,6 +99,8 @@ def preprocess_all():
         # CHECK IF IT IS A HOLIDAY
         if (check_for_holiday(loaddata_list[i][1], usholidays_list) == True):
             continue
+        if (loaddata_list[i][1][6:10] == "2018"):
+            continue
         for j in range(weatherdata_list.__len__()):
             # GET MATCHING DAYS AND TIMES
             if (loaddata_list[i][1][6:10] == weatherdata_list[j][2][0:4] and
@@ -113,8 +115,8 @@ def preprocess_all():
                         weatherdata_list[j][15], weatherdata_list[j][16],
                         weatherdata_list[j][3] if j == 0 else weatherdata_list[j-1][3],
 
-                        int(weatherdata_list[j][2][5:7]),
-                        5835,
+                        get_month_1234(int(weatherdata_list[j][2][5:7])),
+
 
                         loaddata_list[i][5]]
                 data_list.append(elem)
@@ -138,7 +140,7 @@ def preprocess_all():
     # CLOUDCOVER
     df[7] = df[7].mask((df[7] > 100.0) | (df[7] < 0.0), numpy.nan)
     # LOAD
-    df[11].replace(666999.0, numpy.nan, inplace=True)
+    df[10].replace(666999.0, numpy.nan, inplace=True)
 
     df[0] = df[0].interpolate(method='linear', limit_direction='both')
     df[1] = df[1].interpolate(method='linear', limit_direction='both')
@@ -148,12 +150,12 @@ def preprocess_all():
     df[5] = df[5].interpolate(method='linear', limit_direction='both')
     df[6] = df[6].interpolate(method='linear', limit_direction='both')
     df[7] = df[7].interpolate(method='linear', limit_direction='both')
-    df[11] = df[11].interpolate(method='linear', limit_direction='both')
+    df[10] = df[10].interpolate(method='linear', limit_direction='both')
 
     return df
 
 
-def preprocess(start_date, end_date):
+def preprocess_for_training(start_date, end_date):
     usholidays_list = database_read_functions.read_from_usholidays_table()
     weatherdata_list = database_read_functions.read_from_weatherdata_table_by_dates(start_date, end_date)
     dt_list = database_read_functions.read_from_loaddata_table()
@@ -179,6 +181,56 @@ def preprocess(start_date, end_date):
                         int(weatherdata_list[j][2][5:7]),
                         loaddata_list[i][5]]
                 data_list.append(elem)
+
+    df = pandas.DataFrame(data_list)
+
+    # TEMP
+    df[0] = df[0].mask((df[0] > 100.0) | (df[0] < 0.0), numpy.nan)
+    # DEW
+    df[1] = df[1].mask((df[1] > 78.0) | (df[1] < -17.0), numpy.nan)
+    # HUMIDITY
+    df[2] = df[2].mask((df[2] > 100.0) | (df[2] < 8.0), numpy.nan)
+    # WINDGUST
+    df[3] = df[3].mask((df[3] > 61.0) | (df[3] < 16.0), numpy.nan)
+    # WINDSPEED
+    df[4] = df[4].mask((df[4] > 33.0) | (df[4] < 0.0), numpy.nan)
+    # WINDDIR
+    df[5] = df[5].mask((df[5] > 360.0) | (df[5] < 0.0), numpy.nan)
+    # SEALEVELPRESSURE
+    df[6] = df[6].mask((df[6] > 1045) | (df[6] < 975.0), numpy.nan)
+    # CLOUDCOVER
+    df[7] = df[7].mask((df[7] > 100.0) | (df[7] < 0.0), numpy.nan)
+    # LOAD
+    df[10].replace(666999.0, numpy.nan, inplace=True)
+
+    df[0] = df[0].interpolate(method='linear', limit_direction='both')
+    df[1] = df[1].interpolate(method='linear', limit_direction='both')
+    df[2] = df[2].interpolate(method='linear', limit_direction='both')
+    df[3] = df[3].interpolate(method='linear', limit_direction='both')
+    df[4] = df[4].interpolate(method='linear', limit_direction='both')
+    df[5] = df[5].interpolate(method='linear', limit_direction='both')
+    df[6] = df[6].interpolate(method='linear', limit_direction='both')
+    df[7] = df[7].interpolate(method='linear', limit_direction='both')
+    df[10] = df[10].interpolate(method='linear', limit_direction='both')
+
+    return df
+
+
+def preprocess_for_prediction(start_date, days):
+    weatherdata_list = database_read_functions.read_from_weatherdata_table_by_date_and_days(start_date, days)
+
+    # TEMP DEW HUMIDITY WINDGUST WINDSPEED WINDDIR SEALEVELPRESSURE CLOUDCOVER MONTHS PREVTEMP LOAD
+    data_list = []
+    for i in range(weatherdata_list.__len__()):
+        elem = [weatherdata_list[i][3], weatherdata_list[i][5], weatherdata_list[i][6],
+                weatherdata_list[i][12], weatherdata_list[i][13], weatherdata_list[i][14],
+                weatherdata_list[i][15], weatherdata_list[i][16],
+                weatherdata_list[i][3] if i == 0 else weatherdata_list[i-1][3],
+                int(weatherdata_list[i][2][5:7]), -1]
+        data_list.append(elem)
+        if i == weatherdata_list.__len__() - 1:
+            elem = []
+            data_list.append(elem)
 
     df = pandas.DataFrame(data_list)
 

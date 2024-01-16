@@ -4,7 +4,7 @@ from Services.HelperClasses.ann_regression import AnnRegression
 from Services.HelperClasses.scorer import Scorer
 import time
 
-NUMBER_OF_COLUMNS = 12
+NUMBER_OF_COLUMNS = 11
 SHARE_FOR_TRAINING = 0.85
 
 
@@ -61,7 +61,7 @@ def train_model_and_predict():
 
 
 def train_model(start_date, end_date):
-    dataframe = preprocessing_service.preprocess(start_date, end_date)
+    dataframe = preprocessing_service.preprocess_for_training(start_date, end_date)
 
     # prepare data
     preparer = CustomPreparer(dataframe, NUMBER_OF_COLUMNS, SHARE_FOR_TRAINING)
